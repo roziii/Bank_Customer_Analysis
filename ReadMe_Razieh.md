@@ -600,89 +600,89 @@ def evaluate_best_fourier_model(df, feature_col, target_col, max_fourier_terms=5
     return best_model
 ```
 ![download](https://github.com/user-attachments/assets/647769ee-0266-417e-a0f1-e10c15a50c3b)
-Degree 1:
- - Train MSE: 0.0427
- - Test MSE: 0.0257
- - R² Score (Train): 0.4321
- - R² Score (Test): -20.3091
-The gap between the R2 scores of train and test is: 20.7412
+Degree 1:<br/>
+ - Train MSE: 0.0427<br/>
+ - Test MSE: 0.0257<br/>
+ - R² Score (Train): 0.4321<br/>
+ - R² Score (Test): -20.3091<br/>
+The gap between the R2 scores of train and test is: 20.7412<br/>
 ============================================================
 
 ![download](https://github.com/user-attachments/assets/d161115b-8c2b-45bf-af8e-8b65af105179)
-Degree 2:
- - Train MSE: 0.0122
- - Test MSE: 0.0447
- - R² Score (Train): 0.8379
- - R² Score (Test): -36.0504
-The gap between the R2 scores of train and test is: 36.8883
+Degree 2:<br/>
+ - Train MSE: 0.0122<br/>
+ - Test MSE: 0.0447<br/>
+ - R² Score (Train): 0.8379<br/>
+ - R² Score (Test): -36.0504<br/>
+The gap between the R2 scores of train and test is: 36.8883<br/>
 ============================================================
 
 ![download](https://github.com/user-attachments/assets/3c000eea-4eed-4042-addb-ca82cf0eb2e0)
-Degree 3:
- - Train MSE: 0.0013
- - Test MSE: 0.0101
- - R² Score (Train): 0.9827
- - R² Score (Test): -7.3389
-The gap between the R2 scores of train and test is: 8.3217
+Degree 3:<br/>
+ - Train MSE: 0.0013<br />
+ - Test MSE: 0.0101<br />
+ - R² Score (Train): 0.9827<br />
+ - R² Score (Test): -7.3389<br />
+The gap between the R2 scores of train and test is: 8.3217<br />
 ============================================================
 
 ![download](https://github.com/user-attachments/assets/454db1bf-2e0d-47d1-9144-1274b13f32bb)
-Degree 4:
- - Train MSE: 0.0003
- - Test MSE: 0.0019
- - R² Score (Train): 0.9963
- - R² Score (Test): -0.6002
-The gap between the R2 scores of train and test is: 1.5965
+Degree 4:<br />
+ - Train MSE: 0.0003<br />
+ - Test MSE: 0.0019<br/>
+ - R² Score (Train): 0.9963<br/>
+ - R² Score (Test): -0.6002<br/>
+The gap between the R2 scores of train and test is: 1.5965<br/>
 ============================================================
 ![download](https://github.com/user-attachments/assets/e0b8c66f-3722-4a79-afa7-92d8508cfc94)
-Degree 5:
- - Train MSE: 0.0000
- - Test MSE: 0.0040
- - R² Score (Train): 1.0000
- - R² Score (Test): -2.3229
-The gap between the R2 scores of train and test is: 3.3229
+Degree 5:<br/>
+ - Train MSE: 0.0000<br/>
+ - Test MSE: 0.0040<br/>
+ - R² Score (Train): 1.0000<br/>
+ - R² Score (Test): -2.3229<br/>
+The gap between the R2 scores of train and test is: 3.3229<br/>
 ============================================================
 
 ![download](https://github.com/user-attachments/assets/f2cb67f2-153e-41c9-8fcc-44765efe9d95)
 
-Degree 1:
-  Ridge (α=2, MSE=0.1427), ΔR² train & test=9.7757
-  Lasso (α=1, MSE=0.1024), ΔR² train & test=1.5287
-  ElasticNet (α=1.5, MSE=0.1024), ΔR² train & test=1.5287
-  Linear Regression (MSE=0.1498), ΔR² train & test=10.7835
+Degree 1:<br/>
+  Ridge (α=2, MSE=0.1427), ΔR² train & test=9.7757<br/>
+  Lasso (α=1, MSE=0.1024), ΔR² train & test=1.5287<br/>
+  ElasticNet (α=1.5, MSE=0.1024), ΔR² train & test=1.5287<br/>
+  Linear Regression (MSE=0.1498), ΔR² train & test=10.7835<br/>
 
 ============================================================
 
 ![download](https://github.com/user-attachments/assets/b140a9b1-ce03-4a91-b49b-627d800bf45d)
-Degree 2:
-  Ridge (α=1, MSE=0.1269), ΔR² train & test=13.3308
-  Lasso (α=2, MSE=0.1128), ΔR² train & test=1.3239
-  ElasticNet (α=2, MSE=0.1193), ΔR² train & test=2.2173
-  Linear Regression (MSE=0.1555), ΔR² train & test=20.3391
+Degree 2:<br/>
+  Ridge (α=1, MSE=0.1269), ΔR² train & test=13.3308<br/>
+  Lasso (α=2, MSE=0.1128), ΔR² train & test=1.3239<br/>
+  ElasticNet (α=2, MSE=0.1193), ΔR² train & test=2.2173<br/>
+  Linear Regression (MSE=0.1555), ΔR² train & test=20.3391<br/>
 
 ![download](https://github.com/user-attachments/assets/25062774-d010-423a-8f54-9da337f1e212)
-Degree 3:
-  Ridge (α=0.01, MSE=0.1333), ΔR² train & test=4.1866
-  Lasso (α=0.001, MSE=0.1227), ΔR² train & test=4.1847
-  ElasticNet (α=0.001, MSE=0.1230), ΔR² train & test=4.1626
-  Linear Regression (MSE=0.2401), ΔR² train & test=3.9812
+Degree 3:<br/>
+  Ridge (α=0.01, MSE=0.1333), ΔR² train & test=4.1866<br/>
+  Lasso (α=0.001, MSE=0.1227), ΔR² train & test=4.1847<br/>
+  ElasticNet (α=0.001, MSE=0.1230), ΔR² train & test=4.1626<br/>
+  Linear Regression (MSE=0.2401), ΔR² train & test=3.9812<br/>
   
   ![download](https://github.com/user-attachments/assets/d8efdafe-e531-475e-a154-72ee5d390d62)
-Degree 4:
-  Ridge (α=2, MSE=0.1284), ΔR² train & test=12.9431
-  Lasso (α=0.001, MSE=0.1241), ΔR² train & test=4.7568
-  ElasticNet (α=0.01, MSE=0.1245), ΔR² train & test=9.0555
-  Linear Regression (MSE=0.1870), ΔR² train & test=0.3951
+Degree 4:<br/>
+  Ridge (α=2, MSE=0.1284), ΔR² train & test=12.9431<br/>
+  Lasso (α=0.001, MSE=0.1241), ΔR² train & test=4.7568<br/>
+  ElasticNet (α=0.01, MSE=0.1245), ΔR² train & test=9.0555<br/>
+  Linear Regression (MSE=0.1870), ΔR² train & test=0.3951<br/>
   
 ![download](https://github.com/user-attachments/assets/84db0e6a-a630-45e7-bb06-2d795cf28433)
-Degree 5:
-  Ridge (α=0.1, MSE=0.1784), ΔR² train & test=4.8118
-  Lasso (α=0.1, MSE=0.1330), ΔR² train & test=15.0556
-  ElasticNet (α=0.01, MSE=0.1355), ΔR² train & test=9.0731
-  Linear Regression (MSE=0.2233), ΔR² train & test=0.0335
+Degree 5:<br/>
+  Ridge (α=0.1, MSE=0.1784), ΔR² train & test=4.8118<br/>
+  Lasso (α=0.1, MSE=0.1330), ΔR² train & test=15.0556<br/>
+  ElasticNet (α=0.01, MSE=0.1355), ΔR² train & test=9.0731<br/>
+  Linear Regression (MSE=0.2233), ΔR² train & test=0.0335<br/>
 
 ![download](https://github.com/user-attachments/assets/d8efef87-fc6a-4a09-b39b-dcba0738c14b)
-Best Fourier Model: N=1 with Extrapolation R² = 0.6605 and ΔR² = 21.6003
+Best Fourier Model: N=1 with Extrapolation R² = 0.6605 and ΔR² = 21.6003<br/>
 
 ## Segmentación de clientes
 Para segmentar a los clientes, primero creamos un nuevo campo llamado segmento de gasto y los clientes se dividieron según el monto en el campo de monto.
