@@ -119,6 +119,10 @@ plt.show()
 ```
 ![Image](https://github.com/user-attachments/assets/bb6c48f0-5c30-4e7c-bc4c-774d6cfabbaf)
 
+#### OBSERVACION
+
+Hay una continuidad entre los diferentes grupos, en sus porcentajes, a lo largo del tiempo. Eso es algo a tener en cuenta. No varian significativamente excepto respecto al primer mes observado. 
+
 ### APLICACIÓN DE ESTOS SEGMENTOS A LA TASA DE RETENCIÓN
 
 ```python
@@ -1210,6 +1214,203 @@ Mejor modelo: Grado 10 - R² Test: 0.4737
 
 ![Image](https://github.com/user-attachments/assets/909eb7e1-0773-426b-89c5-36cfe46d0967)
 
+
+## ANALISIS CORRELACIÓN
+
+```python
+
+from scipy.stats import pearsonr, spearmanr
+from statsmodels.tsa.stattools import coint, grangercausalitytests
+
+
+df_churn["Tasa_Paro"] = pd.to_numeric(df_churn["Tasa_Paro"], errors="coerce")
+
+if isinstance(df_churn['cohort_d'].dtype, pd.PeriodDtype):
+    df_churn['cohort_d'] = df_churn['cohort_d'].dt.to_timestamp()
+else:
+    df_churn['cohort_d'] = pd.to_datetime(df_churn['cohort_d'])
+
+
+# 1. Agrupar la Retention Rate a nivel mensual
+
+df_monthly_ret = df_churn.groupby(pd.Grouper(key="cohort_d", freq="M")).agg(
+    Mean_Retention_Rate=("Retention_Rate", "mean")
+).reset_index()
+
+
+# 2. Agrupar la Tasa de Paro a nivel mensual
+
+df_monthly_paro = df_churn.groupby(pd.Grouper(key="cohort_d", freq="M")).agg(
+    Mean_Tasa_Paro=("Tasa_Paro", "mean")
+).reset_index()
+
+# 3. Unir ambos DataFrames mensuales en uno solo
+
+df_monthly_merged = pd.merge(df_monthly_ret, df_monthly_paro, on="cohort_d", how="inner")
+df_monthly_merged = df_monthly_merged.dropna(subset=["Mean_Retention_Rate", "Mean_Tasa_Paro"])
+
+if len(df_monthly_merged) < 3:
+    print("No hay suficientes datos mensuales para realizar las pruebas estadísticas.")
+else:
+
+    # 4. Calcular Correlaciones Pearson y Spearman
+
+    pear_corr, pear_pval = pearsonr(df_monthly_merged["Mean_Tasa_Paro"], df_monthly_merged["Mean_Retention_Rate"])
+    spear_corr, spear_pval = spearmanr(df_monthly_merged["Mean_Tasa_Paro"], df_monthly_merged["Mean_Retention_Rate"])
+        
+
+    # 5. Prueba de Cointegración Engle-Granger
+
+    score, p_value_coin, _ = coint(df_monthly_merged["Mean_Retention_Rate"], df_monthly_merged["Mean_Tasa_Paro"])
+        
+
+    # 6. Prueba de Causalidad de Granger (maxlag=2)
+
+    df_for_granger = df_monthly_merged[["Mean_Retention_Rate", "Mean_Tasa_Paro"]].dropna()        
+
+    # 7. Impresión de Interpretaciones y Conclusiones
+
+    print("\n--- Análisis Correlación ---\n")
+    print("1. CORRELACIÓN:")
+    print(f"   - Pearson: {pear_corr:.3f} (p-value = {pear_pval:.4f})")
+    print(f"   - Spearman: {spear_corr:.3f} (p-value = {spear_pval:.4f})")
+    print("   Estos valores indican una relación estadísticamente significativa entre la Tasa de Paro y la Retention Rate.")
+        
+    print("\n2. COINTEGRACIÓN (Engle-Granger):")
+    print(f"   - Estadístico: {score:.3f} | p-value = {p_value_coin:.4f}")
+    if p_value_coin < 0.05:
+        print("   => Las series podrían estar cointegradas, lo que indica una relación de equilibrio a largo plazo.")
+    else:
+        print("   => No hay evidencia estadística de cointegración entre las series.")
+        
+    print("\n3. CAUSALIDAD DE GRANGER:")
+    if len(df_for_granger) > 5:
+        print("   Se realizan pruebas de causalidad de Granger con maxlag=2:")
+        granger_results = grangercausalitytests(df_for_granger, maxlag=2, verbose=True)
+        # Revisa los p-values en la salida; p-values < 0.05 indican evidencia de causalidad.
+    else:
+        print("   No hay suficientes datos para realizar la prueba de causalidad de Granger.")       
+
+
+    # 8. Visualización
+  
+    plt.figure(figsize=(8, 5))
+    sns.regplot(
+        x="Mean_Tasa_Paro",
+        y="Mean_Retention_Rate",
+        data=df_monthly_merged,
+        scatter_kws={"alpha": 0.7},
+        line_kws={"color": "red"},
+    )
+    plt.title("Relación entre Tasa de Paro y Retention Rate (Mensual)")
+    plt.xlabel("Tasa de Paro (Promedio Mensual)")
+    plt.ylabel("Retention Rate (Promedio Mensual)")
+    plt.grid(alpha=0.3)
+    plt.show()
+```
+
+#### OUTPUT
+--- Análisis Correlación ---
+
+1. CORRELACIÓN:
+   - Pearson: -0.651 (p-value = 0.0160)
+   - Spearman: -0.591 (p-value = 0.0332)
+   Estos valores indican una relación estadísticamente significativa entre la Tasa de Paro y la Retention Rate.
+
+2. COINTEGRACIÓN (Engle-Granger):
+   - Estadístico: -1.986 | p-value = 0.5356
+   => No hay evidencia estadística de cointegración entre las series.
+
+3. CAUSALIDAD DE GRANGER:
+   Se realizan pruebas de causalidad de Granger con maxlag=2:
+
+Granger Causality
+number of lags (no zero) 1
+ssr based F test:         F=2.6450  , p=0.1383  , df_denom=9, df_num=1
+ssr based chi2 test:   chi2=3.5266  , p=0.0604  , df=1
+likelihood ratio test: chi2=3.0918  , p=0.0787  , df=1
+parameter F test:         F=2.6450  , p=0.1383  , df_denom=9, df_num=1
+
+Granger Causality
+number of lags (no zero) 2
+ssr based F test:         F=2.3357  , p=0.1777  , df_denom=6, df_num=2
+ssr based chi2 test:   chi2=8.5644  , p=0.0138  , df=2
+likelihood ratio test: chi2=6.3340  , p=0.0421  , df=2
+parameter F test:         F=2.3357  , p=0.1777  , df_denom=6, df_num=2
+
+
+
+![Image](https://github.com/user-attachments/assets/eb468269-47c6-4381-805e-5fc7cc736d6a)
+
+# Análisis de Causalidad por Correlación
+
+## 1. CORRELACIÓN
+
+- **Pearson:**
+  - Valor: **-0.651**
+  - p-value: **0.0160**
+  
+- **Spearman:**
+  - Valor: **-0.591**
+  - p-value: **0.0332**
+
+**Interpretación:**  
+Ambos coeficientes indican una relación negativa moderada a fuerte entre la Tasa de Paro y la Retention Rate. Esto sugiere que, en promedio, a medida que la Tasa de Paro aumenta, la Retention Rate tiende a disminuir. Los p-values menores a 0.05 confirman que la relación es estadísticamente significativa y no se debe al azar.
+
+
+## 2. COINTEGRACIÓN (Engle-Granger)
+
+- **Estadístico:** **-1.986**
+- **p-value:** **0.5356**
+
+**Interpretación:**  
+El p-value es muy alto (0.5356 > 0.05), lo que indica que no se encontró evidencia de cointegración entre la Tasa de Paro y la Retention Rate. Esto significa que, aunque las dos series muestran una correlación significativa, no se observa que se muevan conjuntamente de forma equilibrada a largo plazo.
+
+
+
+## 3. CAUSALIDAD DE GRANGER
+
+Se realizaron pruebas de causalidad de Granger considerando dos lags:
+
+### Para 1 lag:
+- **SSR-based F test:** F = 2.6450, p = 0.1383  
+- **SSR-based chi² test:** chi² = 3.5266, p = 0.0604  
+- **Likelihood ratio test:** chi² = 3.0918, p = 0.0787  
+- **Parameter F test:** p = 0.1383
+
+**Interpretación:**  
+Para un lag, ninguno de los tests alcanza significancia al nivel del 5%. Esto indica que, si solo se considera el valor inmediatamente anterior, no hay evidencia suficiente de que la Tasa de Paro cause (en el sentido de Granger) la Retention Rate.
+
+### Para 2 lags:
+- **SSR-based F test:** F = 2.3357, p = 0.1777  
+- **SSR-based chi² test:** chi² = 8.5644, p = 0.0138  
+- **Likelihood ratio test:** chi² = 6.3340, p = 0.0421  
+- **Parameter F test:** p = 0.1777
+
+**Interpretación:**  
+Cuando se consideran dos lags, dos de los tests (el SSR-based chi² test y el likelihood ratio test) arrojan p-values inferiores a 0.05, lo que sugiere que los valores pasados de la Tasa de Paro (hace dos periodos) tienen capacidad predictiva sobre la Retention Rate. Aunque los tests basados en F no muestran significancia, la evidencia en algunos tests respalda la hipótesis de causalidad de Granger a 2 lags.
+
+
+
+## Conclusiones Globales
+
+- **Correlación:**  
+  Los resultados de Pearson y Spearman indican una relación negativa y estadísticamente significativa: cuando la Tasa de Paro aumenta, la Retention Rate disminuye.
+
+- **Cointegración:**  
+  La ausencia de cointegración (p-value alto) indica que, a largo plazo, las series no comparten una tendencia de equilibrio, lo que implica que se comportan de forma independiente en el largo plazo.
+
+- **Causalidad de Granger:**  
+  Aunque para 1 lag no se encontró evidencia significativa, al considerar 2 lags algunos tests sugieren que los valores pasados de la Tasa de Paro pueden predecir la Retention Rate. Esto aporta evidencia de una relación causal en el sentido de Granger, es decir, la Tasa de Paro posee capacidad predictiva sobre la Retention Rate cuando se consideran dos periodos de retraso.
+
+### Interpretación Final
+
+- **La correlación** es fuerte y significativa, lo que respalda la existencia de una relación inversa entre la Tasa de Paro y la Retention Rate.
+- **La falta de cointegración** sugiere que, a pesar de la correlación, las dos series no mantienen un equilibrio conjunto a largo plazo.
+- **La causalidad de Granger** (especialmente a 2 lags) indica que los valores pasados de la Tasa de Paro pueden predecir la Retention Rate, lo que respalda la hipótesis de una relación causal en el sentido estadístico.
+
+**Conclusión:**  
+Aunque la correlación no implica causalidad por sí sola, el conjunto de evidencias—correlación significativa, cointegración ausente y resultados mixtos en la prueba de Granger—sugiere que existe una relación causal (en términos de capacidad predictiva) entre la Tasa de Paro y la Retention Rate.
 
 
 
