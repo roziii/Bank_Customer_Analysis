@@ -908,3 +908,152 @@ Existe una alta correlación negativa entre Transfer_type y Cash_request_id:
 ![download](https://github.com/user-attachments/assets/5be958b3-87a3-4baf-9cdb-4e24bf3aac9f)
 
 
+El siguiente paso para estudiar los datos fue predecir las ganancias que puede generar un usuario.
+Para esto, primero usamos la combinación izquierda. Después de combinar user_id y delete_acount_ids, también creamos una bandera para mostrar la información sobre user_id y delete_account_id. También usamos las columnas reject_segment, net_profit y CLV(customer_life_value).
+``` python
+customer_profitability = merged_df.groupby('user_id').agg(
+    total_revenue =('amount', 'sum'), 
+    total_fees = ('total_amount', 'sum'),
+    transaction_counts =('id_fees', 'count'), 
+    fees_rejeted_counts =( 'fees_rejeted' , 'count'), 
+    instant_payments =('instant_payment_count', 'sum')
+).reset_index()
+customer_profitability.info()
+
+# Calculate net profit 
+customer_profitability['net_profit'] = customer_profitability['total_revenue'] - customer_profitability['total_fees']
+# Customer lifetime value is a measurement of how valuable a customer is to your company, not just on a purchase-by-purchase basis but across entire customer relationships.
+customer_profitability['clv'] = customer_profitability['net_profit'] * customer_profitability['transaction_counts']
+# Sort customers by profitability
+customer_profitability = customer_profitability.sort_values(by="net_profit", ascending=False)
+
+```
+Con la misma función para encontrar el mejor modelo de regresión creamos el mejor modelo.
+Degree 1:
+  Ridge (α=0.001, MSE=0.0000), ΔR²=-0.0000
+  Lasso (α=0.001, MSE=0.0003), ΔR²=0.0006
+  ElasticNet (α=0.001, MSE=0.0002), ΔR²=-0.0036
+  Linear Regression (MSE=0.0000), ΔR²=0.0000
+
+Degree 2:
+  Ridge (α=0.001, MSE=0.0000), ΔR²=-0.0000
+  Lasso (α=0.001, MSE=0.0003), ΔR²=0.0006
+  ElasticNet (α=0.001, MSE=0.0002), ΔR²=-0.0036
+  Linear Regression (MSE=0.0000), ΔR²=0.0000
+
+Degree 3:
+  Ridge (α=0.001, MSE=0.0000), ΔR²=-0.0000
+  Lasso (α=0.001, MSE=0.0003), ΔR²=0.0006
+  ElasticNet (α=0.001, MSE=0.0002), ΔR²=-0.0036
+  Linear Regression (MSE=0.0000), ΔR²=0.0000
+
+Degree 4:
+  Ridge (α=0.001, MSE=0.0000), ΔR²=-0.0000
+  Lasso (α=0.001, MSE=0.0003), ΔR²=0.0006
+  ElasticNet (α=0.001, MSE=0.0002), ΔR²=-0.0036
+  Linear Regression (MSE=0.0000), ΔR²=0.0000
+
+Degree 5:
+  Ridge (α=0.001, MSE=0.0000), ΔR²=-0.0000
+  Lasso (α=0.001, MSE=0.0003), ΔR²=0.0006
+  ElasticNet (α=0.001, MSE=0.0002), ΔR²=-0.0036
+  Linear Regression (MSE=0.0000), ΔR²=0.0000
+```python
+new_customer = np.array([[5000, 300, 12, 25000 , 3 , 5]])  # [total_revenue, total_fees, transaction_count, clv]
+
+
+new_customer = new_customer.reshape(1, -1)  # (1 sample, 4 features)
+
+# Predict net profit
+predicted_profit = best_model.predict(new_customer)
+print("Predicted Net Profit:", predicted_profit[0])
+```
+Predicted Net Profit: 2045.7746721247086
+
+Luego creamos la categoría de beneficio y el segmento de rechazo:
+``` python
+high_payment_threshold = customer_profitability["instant_payments"].quantile(0.50)
+low_payment_threshold = customer_profitability["instant_payments"].quantile(0.25)
+customer_profitability["instant_payment_category"] = customer_profitability["instant_payments"].apply(
+    lambda x: "low instant payment" if x <=  high_payment_threshold else
+    'Medium instant payment' if  x > low_payment_threshold and  x>  high_payment_threshold  
+    else  "High instant payment"
+)
+high_rejection_threshold = customer_profitability["fees_rejeted_counts"].quantile(0.50)
+low_rejection_threshold = customer_profitability["fees_rejeted_counts"].quantile(0.25)
+customer_profitability["rejection_category"] = customer_profitability["fees_rejeted_counts"].apply(
+    lambda x: "low rejection" if x <=  low_rejection_threshold else
+    'Medium Rejection' if  x > low_rejection_threshold and  x<=  high_rejection_threshold 
+    else  "High rejection"
+)
+print(customer_profitability[["user_id", "net_profit", "profit_category" , "rejection_category" , 'instant_payment_category']])
+```
+
+![download](https://github.com/user-attachments/assets/beb5a351-a68c-4dac-b2d2-e819f3763bb0)
+ Luego elegimos las siguientes columnas:
+``` python
+high_rejection_high_profit_user_ids = customer_profitability[(customer_profitability['profit_category']== 'High Profit') & (customer_profitability['rejection_category']== 'High rejection')]
+```
+Y encontramos el mejor modelo SVM:
+``` python
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
+
+# Define the parameter grid
+param_grid = {
+    'C': [0.1, 1, 10, 100],  # Regularization strength
+    'gamma': [0.01, 0.1, 1, 'scale', 'auto'],  # Kernel coefficient
+    'kernel': ['rbf', 'linear', 'poly', 'sigmoid']  # Kernel types
+}
+
+# Create SVM model
+svm_model = SVC(probability=True)
+# Define K-Fold Cross-Validation strategy (Stratified ensures class balance)
+kfold = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+# Implement GridSearchCV with K-Fold CV
+grid_search = GridSearchCV(svm_model, param_grid, cv=kfold, scoring='accuracy', n_jobs=-1, verbose=3)
+
+
+# Fit on training data
+grid_search.fit(X_train, y_train)
+
+# Get the best hyperparameters
+print("Best Hyperparameters:", grid_search.best_params_)
+
+# Get the best model
+best_svm_model = grid_search.best_estimator_
+
+# Evaluate the best model on test data
+test_accuracy = best_svm_model.score(X_test, y_test)
+print("Test Accuracy of Best Model:", test_accuracy)
+```
+![download](https://github.com/user-attachments/assets/e5354a8f-017b-4412-87e2-b7be20769603)
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00       382
+           1       1.00      1.00      1.00        99
+
+    accuracy                           1.00       481
+   macro avg       1.00      1.00      1.00       481
+weighted avg       1.00      1.00      1.00       481
+
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00       568
+           1       1.00      1.00      1.00       119
+
+    accuracy                           1.00       687
+   macro avg       1.00      1.00      1.00       687
+weighted avg       1.00      1.00      1.00       687
+
+Confusion Matrix for the test data:
+![download](https://github.com/user-attachments/assets/f0eb7663-e947-4f87-afd3-ea434eef403f)
+
+Confusion Matrix for the extrapolation data:
+![download](https://github.com/user-attachments/assets/1198875c-ab1d-43b7-abd3-53c3e47c5fae)
+
+![download](https://github.com/user-attachments/assets/004363b0-3d05-4592-89ba-07e12cd7a7f7)
+
