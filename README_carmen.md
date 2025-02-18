@@ -13,12 +13,13 @@
 
 - **Evidencia estadística**: A partir de correlaciones observadas en los datos, se utilizarán técnicas (p. ej., análisis de diferencias en diferencias, métodos de control sintético o validación cruzada con cohortes) para aportar pruebas que respalden o descarten relaciones de causalidad.
 
-## FUENTES DONDE VER LOS DETALLES
+## ARCHIVOS DONDE VER LOS DETALLES
   
 - bank-customer-payback-carmen.ipynb
 - experimento-carmen.ipynb
 
-- ## Análisis Relacion TASA DE PARO Y TASA DE RETENCIÓN
+# Análisis Relación TASA DE PARO (exógena) Y TASA DE RETENCIÓN
+
 ### CREACION SUBGRUPOS DE DATOS
 
 ```python
