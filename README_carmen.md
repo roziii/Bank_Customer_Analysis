@@ -659,6 +659,10 @@ Aunque la ligera disminución de abril a mayo sugería un inicio de recuperació
 
 En resumen, mayo de 2020 fue un mes en el que, a pesar de un pequeño descenso en la tasa de desempleo, el mercado laboral en EE. UU. seguía en una situación crítica, reflejando el profundo impacto económico y social de la pandemia.
 
+**Fenomeno de la gran renuncia**
+
+La gran dimisión o gran renuncia​​ es una dimisión laboral generalizada que comenzó en Estados Unidos en julio de 2020, tras la pandemia de COVID-19, cuando millones de estadounidenses insatisfechos con su trabajo o su salario renunciaron a él. Esta tendencia laboral comenzó a replicarse en el mundo.
+
 ## BUSCANDO DATOS DE LA TASA DE PARO EN EEEUU EN ESA ÉPOCA
 
 Se baraja ir a APIs oficiales (se descarta porque hay que pedir permisos y solicitar token y eso tarda, además que hay que estudiarse la api para integrarla), se podria hacer webscrapping. Se opta, por rapidez, por una tabla obtenida de un organismo oficial.
@@ -1565,6 +1569,8 @@ Aunque la correlación no implica causalidad por sí sola, el conjunto de eviden
 Igualmente esta relación causal es relativa porque hay que tener en cuenta:
 
 Este paro fue en el contexto de la pandemia, que es un fenómeno anómalo. También es anómala la tasa de paro tan elevada en EEUU, que acostumbra a ser siempre baja. Entonces hay que tener en cuenta muchos más factores. A lo mejor tendriamos que predecir pandemias. 
+
+También paso el fenómeno de la gran renuncia. La gran dimisión o gran renuncia​​ es una dimisión laboral generalizada que comenzó en Estados Unidos en julio de 2020, tras la pandemia de COVID-19, cuando millones de estadounidenses insatisfechos con su trabajo o su salario renunciaron a él. Esta tendencia laboral comenzó a replicarse en el mundo.
 
 Como el fenómeno que ha provocado esto es anómalo **(Black Swan Event)** es difícil de predecir y las gráficas con extrapolación de Fourier o Regresión polinómica no son válidas claramente. Porque ese escenario no se repetirá a menos que pase otra pandemia o catástrofe y entonces suba la tasa de paro. Aunque la interpolación nos puede ayudar a ver que pasa, la extrapolación en este caso puede ser inútil.
 
