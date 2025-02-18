@@ -1561,7 +1561,7 @@ Igualmente esta relación causal es relativa porque hay que tener en cuenta:
 
 Este paro fue en el contexto de la pandemia, que es un fenómeno anómalo. También es anómala la tasa de paro tan elevada en EEUU, que acostumbra a ser siempre baja. Entonces hay que tener en cuenta muchos más factores. A lo mejor tendriamos que predecir pandemias. 
 
-Como el fenómeno que ha provocado esto es anómalo **(Black Swan Event)** es difícil de predecir y las gráficas con extrapolación de Fourier o Regresión polinómica no son validas. Porque ese escenario no se repetira a menos que pase otra pandemia o catastrofe y entonces suba la tasa de paro. La extrapolación en este caso puede ser inútil.
+Como el fenómeno que ha provocado esto es anómalo **(Black Swan Event)** es difícil de predecir y las gráficas con extrapolación de Fourier o Regresión polinómica no son válidas claramente. Porque ese escenario no se repetirá a menos que pase otra pandemia o catástrofe y entonces suba la tasa de paro. Aunque la interpolación nos puede ayudar a ver que pasa, la extrapolación en este caso puede ser inútil.
 
 
 
