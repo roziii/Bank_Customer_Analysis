@@ -399,6 +399,9 @@ Evaluando regresión para: Segmento - Repayment_On-time Payer
  ![Image](https://github.com/user-attachments/assets/74dd2e22-f224-4474-9063-4ce63e9100ab)
 
  ## NUEVA SEGMENTACIÓN, ADAPTACION DEL CODIGO Y NUEVOS RESULTADOS
+
+Se vuelve a hacer la segmentación pero no solo por Defaulter, Late Payer y One-time Payer, se analiza que usarios de estos estan en activo o se han dado de baja.
+ 
  Se crearon 6 subdatasets.
 dict_keys(['Defaulter_activo', 'Defaulter_inactivo', 'Late Payer_activo', 'Late Payer_inactivo', 'On-time Payer_activo', 'On-time Payer_inactivo'])
 
@@ -469,6 +472,7 @@ Evaluando regresión para: Segmento - On-time Payer_inactivo
 ![Image](https://github.com/user-attachments/assets/50098236-9608-4c36-840c-08b9f5d08274)
 
 ![Image](https://github.com/user-attachments/assets/7cf5535e-0b5d-4cf0-b330-a613b9849425)
+
 
 ## QUE PUEDE ESTAR PASANDO AQUI?
 
