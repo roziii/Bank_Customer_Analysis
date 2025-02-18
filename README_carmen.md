@@ -470,7 +470,6 @@ Evaluando regresión para: Segmento - On-time Payer_inactivo
 
 ![Image](https://github.com/user-attachments/assets/7cf5535e-0b5d-4cf0-b330-a613b9849425)
 
-
 ## QUE PUEDE ESTAR PASANDO AQUI?
 
 Se observa claramente en todos los grupos una caida de la tasa de retención más o menos acusada en los mismos meses.
