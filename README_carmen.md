@@ -1572,7 +1572,7 @@ Este paro fue en el contexto de la pandemia, que es un fenómeno anómalo. Tambi
 
 También paso el fenómeno de la gran renuncia. La gran dimisión o gran renuncia​​ es una dimisión laboral generalizada que comenzó en Estados Unidos en julio de 2020, tras la pandemia de COVID-19, cuando millones de estadounidenses insatisfechos con su trabajo o su salario renunciaron a él. Esta tendencia laboral comenzó a replicarse en el mundo.
 
-Como el fenómeno que ha provocado esto es anómalo **(Black Swan Event)** es difícil de predecir y las gráficas con extrapolación de Fourier o Regresión polinómica no son válidas claramente. Porque ese escenario no se repetirá a menos que pase otra pandemia o catástrofe y entonces suba la tasa de paro. Aunque la interpolación nos puede ayudar a ver que pasa, la extrapolación en este caso puede ser inútil.
+Como el fenómeno que ha provocado esto es anómalo **(Black Swan Event)** es difícil de predecir y las gráficas con extrapolación de Fourier o Regresión polinómica no son válidas claramente. Porque ese escenario no se repetirá a menos que pase otra pandemia o catástrofe y entonces suba la tasa de paro. También es difícil de predecir el clima de hartazgo generalizado que provoco la gran renuncia. Aunque la interpolación nos puede ayudar a ver que pasa, la extrapolación en este caso puede ser inútil.
 
 
 
