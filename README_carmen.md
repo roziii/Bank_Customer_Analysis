@@ -466,6 +466,50 @@ Mejor modelo: Grado 10 - R² Test: 0.5051
 ![Image](https://github.com/user-attachments/assets/7cf5535e-0b5d-4cf0-b330-a613b9849425)
 
 
+## QUE PUEDE ESTAR PASANDO AQUI?
+
+Se observa claramente en todos los grupos una caida de la tasa de retención más o menos acusada en los mismos meses.
+
+A que se puede deber esto?
+
+En mayo de 2020 en Estados Unidos se vivieron momentos de gran transformación y tensión. Algunos de los hechos más relevantes fueron:
+
+**Inicio de la reapertura tras el confinamiento**
+Tras los estrictos cierres de marzo y abril para frenar la propagación del COVID-19, muchos estados comenzaron a flexibilizar las restricciones. Se implementaron medidas para reabrir negocios, restaurantes y otros servicios, aunque de forma muy cautelosa y con protocolos sanitarios, lo que generó incertidumbre respecto al riesgo de nuevos contagios.
+
+**Tensiones en la gestión de la pandemia**
+Mientras algunos estados impulsaban la reactivación económica, surgían debates intensos sobre la seguridad y la eficacia de estas medidas. La presión por equilibrar la salud pública con la necesidad de reactivar la economía se convirtió en un tema central en el discurso político y mediático.
+
+**Protestas por la justicia racial**
+El 25 de mayo de 2020, el trágico fallecimiento de George Floyd en Minneapolis desencadenó protestas masivas en todo el país. Estas manifestaciones se centraron en denunciar la brutalidad policial y el racismo sistémico, convirtiéndose en un movimiento que no solo marcó a Estados Unidos, sino que tuvo repercusión a nivel global.
+
+**Impacto económicO**
+La incertidumbre provocada tanto por la pandemia como por las tensiones sociales llevó a una mayor inestabilidad económica. La tasa de desempleo alcanzó niveles históricamente altos, y la confianza de consumidores e inversores se vio gravemente afectada.
+
+**Desafíos específicos para una startup financiera en fase de crecimiento**
+Business Payments, al haber sido fundada en 2020, se encontraba en una etapa temprana de consolidación de su base de usuarios. En un mes tan convulso, la empresa tuvo que lidiar con cambios bruscos en el comportamiento de sus clientes, quienes respondían a la incertidumbre económica y social con cautela. Esto pudo provocar que la retención de usuarios se viera afectada, ya que muchos optaron por reducir gastos o postergar el uso de adelantos de efectivo ante un panorama incierto.
+
+En resumen, mayo de 2020 fue un mes en el que la reapertura económica se mezcló con una creciente crisis social y una administración federal bajo fuerte escrutinio, creando un escenario de alta volatilidad tanto en el ámbito político como en el económico.
+
+**Si profundizamos más**
+
+En mayo de 2020, Estados Unidos continuó enfrentando una CRISIS LABORAL derivada de la pandemia del COVID-19. Aunque hubo una ligera mejora respecto a abril, la tasa de desempleo seguía siendo históricamente alta:
+
+**Niveles extraordinarios**
+La tasa de desempleo (medida U3, que es la oficial) se situó alrededor del 13.3% en mayo, tras alcanzar un pico cercano al 14.7% en abril. Esto representó a millones de estadounidenses sin empleo o en situación de desempleo temporal.
+
+**Impacto por la crisis sanitaria**
+La pérdida masiva de empleos se debió a los cierres y restricciones impuestos para frenar la propagación del virus, lo que afectó especialmente a sectores como hostelería, turismo, comercio minorista y servicios.
+
+**Recuperación incipiente**
+Aunque la ligera disminución de abril a mayo sugería un inicio de recuperación, el mercado laboral seguía siendo muy vulnerable y la reintegración de los trabajadores a sus empleos habituales no era segura ni homogénea.
+
+En resumen, mayo de 2020 fue un mes en el que, a pesar de un pequeño descenso en la tasa de desempleo, el mercado laboral en EE. UU. seguía en una situación crítica, reflejando el profundo impacto económico y social de la pandemia.
+
+
+
+
+
 
 
 
