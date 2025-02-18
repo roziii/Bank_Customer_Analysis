@@ -505,35 +505,35 @@ for key, df_churn in sub_retention.items():
     apply_fourier_regression(df_churn, f"Segmento - {key}")
 ```
 Evaluando Fourier para: Segmento - Repayment_Defaulter
-Resultados en entrenamiento:
-RMSE Train: 0.2768
-R² Train: 0.3252
-Resultados en prueba:
-RMSE Test: 0.3003
-R² Test: 0.1745
-diff R² train-test : 0.1507
+-Resultados en entrenamiento:
+-RMSE Train: 0.2768
+-R² Train: 0.3252
+-Resultados en prueba:
+-RMSE Test: 0.3003
+-R² Test: 0.1745
+-diff R² train-test : 0.1507
 
 ![Image](https://github.com/user-attachments/assets/a19539a7-e82f-4267-864a-a52f4bd6353d)
 
 Evaluando Fourier para: Segmento - Repayment_Late Payer
-Resultados en entrenamiento:
-RMSE Train: 0.2608
-R² Train: 0.4241
-Resultados en prueba:
-RMSE Test: 0.2848
-R² Test: 0.0243
-diff R² train-test : 0.3998
+-Resultados en entrenamiento:
+-RMSE Train: 0.2608
+-R² Train: 0.4241
+-Resultados en prueba:
+-RMSE Test: 0.2848
+-R² Test: 0.0243
+-diff R² train-test : 0.3998
 
 ![Image](https://github.com/user-attachments/assets/04605d03-4dab-471f-b3dd-95dd2dddd281)
 
 Evaluando Fourier para: Segmento - Repayment_On-time Payer
-Resultados en entrenamiento:
-RMSE Train: 0.2588
-R² Train: 0.3939
-Resultados en prueba:
-RMSE Test: 0.2702
-R² Test: 0.3670
-diff R² train-test : 0.0270
+-Resultados en entrenamiento:
+-RMSE Train: 0.2588
+-R² Train: 0.3939
+-Resultados en prueba:
+-RMSE Test: 0.2702
+-R² Test: 0.3670
+-diff R² train-test : 0.0270
 
 ![Image](https://github.com/user-attachments/assets/e5adce17-59ee-4b02-8f29-faecc1d07c8e)
 
