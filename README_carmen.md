@@ -538,7 +538,7 @@ Evaluando Fourier para: Segmento - Repayment_On-time Payer
 ![Image](https://github.com/user-attachments/assets/e5adce17-59ee-4b02-8f29-faecc1d07c8e)
 
 
- ## NUEVA SEGMENTACIÓN, ADAPTACION DEL CODIGO Y NUEVOS RESULTADOS
+ ## NUEVA SEGMENTACIÓN, ADAPTACIÓN DEL CÓDIGO Y NUEVOS RESULTADOS
 
 Se vuelve a hacer la segmentación pero no solo por Defaulter, Late Payer y One-time Payer, se analiza que usarios de estos estan en activo o se han dado de baja.
  
@@ -614,7 +614,7 @@ Evaluando regresión para: Segmento - On-time Payer_inactivo
 ![Image](https://github.com/user-attachments/assets/7cf5535e-0b5d-4cf0-b330-a613b9849425)
 
 
-## QUE PUEDE ESTAR PASANDO AQUI?
+## QUE PUEDE ESTAR PASANDO AQUÍ?
 
 Se observa claramente en todos los grupos una **caída de la tasa de retención** más o menos acusada en los mismos meses.
 
@@ -631,7 +631,7 @@ Mientras algunos estados impulsaban la reactivación económica, surgían debate
 **Protestas por la justicia racial**
 El 25 de mayo de 2020, el trágico fallecimiento de George Floyd en Minneapolis desencadenó protestas masivas en todo el país. Estas manifestaciones se centraron en denunciar la brutalidad policial y el racismo sistémico, convirtiéndose en un movimiento que no solo marcó a Estados Unidos, sino que tuvo repercusión a nivel global.
 
-**Impacto económicO**
+**Impacto económico**
 La incertidumbre provocada tanto por la pandemia como por las tensiones sociales llevó a una mayor inestabilidad económica. La tasa de desempleo alcanzó niveles históricamente altos, y la confianza de consumidores e inversores se vio gravemente afectada.
 
 **Desafíos específicos para una startup financiera en fase de crecimiento**
@@ -654,7 +654,7 @@ Aunque la ligera disminución de abril a mayo sugería un inicio de recuperació
 
 En resumen, mayo de 2020 fue un mes en el que, a pesar de un pequeño descenso en la tasa de desempleo, el mercado laboral en EE. UU. seguía en una situación crítica, reflejando el profundo impacto económico y social de la pandemia.
 
-## BUSCANDO DATOS DE LA TASA DE PARO EN EEEUU EN ESA EPOCA
+## BUSCANDO DATOS DE LA TASA DE PARO EN EEEUU EN ESA ÉPOCA
 
 Se baraja ir a APIs oficiales (se descarta porque hay que pedir permisos y solicitar token y eso tarda, además que hay que estudiarse la api para integrarla), se podria hacer webscrapping. Se opta, por rapidez, por una tabla obtenida de un organismo oficial.
 
@@ -1055,7 +1055,7 @@ TABLA ORIGINAL
 </table>
 </div>
 
-DE ESTO SELECCIONO SOLO LO QUE ME INTERESA
+DE ESTO SELECCIONO SÓLO LO QUE ME INTERESA
 
 <div>
 <table border="1" class="dataframe">
@@ -1171,7 +1171,7 @@ DE ESTO SELECCIONO SOLO LO QUE ME INTERESA
 </table>
 </div>
 
-### APLICACION DE NUEVO AL MODELO ANTERIOR PERO CON TASA DE PARO
+### APLICACIÓN DE NUEVO AL MODELO ANTERIOR PERO CON TASA DE PARO
 
 ```python
 def apply_regression(df_retention, title):
@@ -1359,7 +1359,7 @@ Evaluando regresión para: Segmento - Repayment_On-time Payer
 ![Image](https://github.com/user-attachments/assets/909eb7e1-0773-426b-89c5-36cfe46d0967)
 
 
-## ANALISIS CORRELACIÓN
+## ANÁLISIS DE CORRELACIÓN
 
 ```python
 
