@@ -398,6 +398,146 @@ Evaluando regresión para: Segmento - Repayment_On-time Payer
  - Mejor modelo: Grado 10 - R² Test: 0.4737
  ![Image](https://github.com/user-attachments/assets/74dd2e22-f224-4474-9063-4ce63e9100ab)
 
+## CON FOURIER
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import warnings
+from scipy.optimize import curve_fit
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+
+warnings.filterwarnings('ignore')
+
+def apply_fourier_regression(df_retention, title):
+    print(f"Evaluando Fourier para: {title}")
+
+    # Convertir cohort_d a datetime
+    df_retention["cohort_d"] = pd.to_datetime(df_retention["cohort_d"])
+
+    # Agrupar por cohorte diaria y calcular la media de la Retention Rate
+    df_daily_mean = df_retention.groupby(pd.Grouper(key="cohort_d", freq="D")).agg(
+        Mean_Retention_Rate=("Retention_Rate", "mean")
+    ).reset_index()
+
+    # Eliminar valores NaN en la Retention Rate
+    df_daily_mean = df_daily_mean.dropna(subset=["Mean_Retention_Rate"])
+
+    # Convertir la fecha en tiempo relativo (días desde la primera cohorte)
+    df_daily_mean["Time"] = (df_daily_mean["cohort_d"] - df_daily_mean["cohort_d"].min()).dt.days
+    X = df_daily_mean["Time"].values
+    y = df_daily_mean["Mean_Retention_Rate"].values
+
+    # Dividir en conjuntos de entrenamiento y prueba
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Definir la función de tendencia lineal
+    def linear_trend(t, a, b):
+        return a * t + b
+
+    # Ajustar la tendencia utilizando solo los datos de entrenamiento
+    params_trend, _ = curve_fit(linear_trend, X_train, y_train)
+    trend_train = linear_trend(X_train, *params_trend)
+    trend_test = linear_trend(X_test, *params_trend)
+
+    # Definir la función para capturar la estacionalidad con términos de Fourier
+    def seasonal_fourier(t, a1, b1, a2, b2):
+        P = 365  # Periodo anual
+        return (a1 * np.sin(2 * np.pi * t / P) + b1 * np.cos(2 * np.pi * t / P) +
+                a2 * np.sin(4 * np.pi * t / P) + b2 * np.cos(4 * np.pi * t / P))
+
+    # Ajustar la estacionalidad con los datos de entrenamiento (sobre los residuos de la tendencia)
+    params_seasonal, _ = curve_fit(seasonal_fourier, X_train, y_train - trend_train)
+    seasonal_train = seasonal_fourier(X_train, *params_seasonal)
+    seasonal_test = seasonal_fourier(X_test, *params_seasonal)
+
+    # Predicciones para entrenamiento y prueba
+    y_pred_train = trend_train + seasonal_train
+    y_pred_test = trend_test + seasonal_test
+
+    # Evaluar el desempeño del modelo
+    rmse_train = np.sqrt(mean_squared_error(y_train, y_pred_train))
+    r2_train = r2_score(y_train, y_pred_train)
+    rmse_test = np.sqrt(mean_squared_error(y_test, y_pred_test))
+    r2_test = r2_score(y_test, y_pred_test)
+
+    print("Resultados en entrenamiento:")
+    print(f"RMSE Train: {rmse_train:.4f}")
+    print(f"R² Train: {r2_train:.4f}")
+    print("Resultados en prueba:")
+    print(f"RMSE Test: {rmse_test:.4f}")
+    print(f"R² Test: {r2_test:.4f}")
+    r2_diff = abs(r2_train - r2_test)
+    print( f"diff R² train-test : {r2_diff:.4f}")
+
+    # Generar predicciones futuras
+    future_time = np.arange(X.max() + 1, X.max() + 366)
+    future_trend = linear_trend(future_time, *params_trend)
+    future_seasonal = seasonal_fourier(future_time, *params_seasonal)
+    future_predicted = future_trend + future_seasonal
+
+    # Reconstruir fechas futuras
+    future_dates = [df_daily_mean["cohort_d"].min() + pd.Timedelta(days=int(t)) for t in future_time]
+
+    # Calcular el modelo ajustado sobre todos los datos utilizando los parámetros de entrenamiento
+    model_fitted_all = linear_trend(df_daily_mean["Time"].values, *params_trend) + \
+                       seasonal_fourier(df_daily_mean["Time"].values, *params_seasonal)
+
+    # Crear el gráfico
+    plt.figure(figsize=(12, 6))
+    plt.scatter(df_daily_mean["cohort_d"], y, alpha=0.7, label="Datos Reales", color="blue")
+    plt.plot(df_daily_mean["cohort_d"], model_fitted_all, label="Modelo Ajustado", color="orange")
+    plt.plot(future_dates, future_predicted, label="Predicción Futura (1 Año)", linestyle='--', color="green")
+    plt.title(f"Predicción de la Retention Rate con Fourier - {title}", fontsize=16)
+    plt.xlabel("Fecha de Cohorte", fontsize=14)
+    plt.ylabel("Retention Rate", fontsize=14)
+    plt.gca().set_yticklabels(['{:,.0%}'.format(x) for x in plt.gca().get_yticks()])
+    plt.yscale('log')
+    plt.grid(alpha=0.3)
+    plt.xticks(rotation=45)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+# Aplicar la función a cada subdataset 
+for key, df_churn in sub_retention.items():
+    apply_fourier_regression(df_churn, f"Segmento - {key}")
+```
+Evaluando Fourier para: Segmento - Repayment_Defaulter
+Resultados en entrenamiento:
+RMSE Train: 0.2768
+R² Train: 0.3252
+Resultados en prueba:
+RMSE Test: 0.3003
+R² Test: 0.1745
+diff R² train-test : 0.1507
+
+![Image](https://github.com/user-attachments/assets/a19539a7-e82f-4267-864a-a52f4bd6353d)
+
+Evaluando Fourier para: Segmento - Repayment_Late Payer
+Resultados en entrenamiento:
+RMSE Train: 0.2608
+R² Train: 0.4241
+Resultados en prueba:
+RMSE Test: 0.2848
+R² Test: 0.0243
+diff R² train-test : 0.3998
+
+![Image](https://github.com/user-attachments/assets/04605d03-4dab-471f-b3dd-95dd2dddd281)
+
+Evaluando Fourier para: Segmento - Repayment_On-time Payer
+Resultados en entrenamiento:
+RMSE Train: 0.2588
+R² Train: 0.3939
+Resultados en prueba:
+RMSE Test: 0.2702
+R² Test: 0.3670
+diff R² train-test : 0.0270
+
+![Image](https://github.com/user-attachments/assets/e5adce17-59ee-4b02-8f29-faecc1d07c8e)
+
+
  ## NUEVA SEGMENTACIÓN, ADAPTACION DEL CODIGO Y NUEVOS RESULTADOS
 
 Se vuelve a hacer la segmentación pero no solo por Defaulter, Late Payer y One-time Payer, se analiza que usarios de estos estan en activo o se han dado de baja.
@@ -1415,6 +1555,10 @@ Cuando se consideran dos lags, dos de los tests (el SSR-based chi² test y el li
 
 **Conclusión:**  
 Aunque la correlación no implica causalidad por sí sola, el conjunto de evidencias—correlación significativa, cointegración ausente y resultados mixtos en la prueba de Granger—sugiere que existe una relación causal (en términos de capacidad predictiva) entre la Tasa de Paro y la Retention Rate.
+
+Igualmente esta relación causal es relativa porque hay que tener en cuenta:
+
+Este paro fue en el contexto de la pandemia, que es un fenómeno anómalo. También es anómala la tasa de paro tan elevada en EEUU, que acostumbra a ser siempre baja. Entonces hay que tener en cuenta muchos más factores. 
 
 
 
