@@ -1023,6 +1023,199 @@ DE ESTO SELECCIONO SOLO LO QUE ME INTERESA
 </table>
 </div>
 
+### APLICACION DE NUEVO AL MODELO ANTERIOR PERO CON TASA DE PARO
+
+```python
+def apply_regression(df_retention, title):
+    print(f"Evaluando regresión para: {title}")
+
+    # Convertir cohort_d a datetime (ya debería estarlo)
+    df_retention["cohort_d"] = pd.to_datetime(df_retention["cohort_d"])
+
+    # Agrupar por cohorte diaria y calcular la media de la Retention Rate
+    df_daily_mean = df_retention.groupby(pd.Grouper(key="cohort_d", freq="D")).agg(
+        Mean_Retention_Rate=("Retention_Rate", "mean")
+    ).reset_index()
+    df_daily_mean = df_daily_mean.dropna(subset=["Mean_Retention_Rate"])
+
+    # Agrupar por cohorte diaria y obtener Tasa_Paro (sin agrupar, se toma la media en este caso) frequencia mensual
+    df_daily_tasa = df_retention.groupby(pd.Grouper(key="cohort_d", freq="M")).agg(
+        Mean_Tasa_Paro=("Tasa_Paro", "mean")
+    ).reset_index()
+
+    # Convertir la fecha a número ordinal para la regresión
+    df_daily_mean["Date_Num"] = df_daily_mean["cohort_d"].map(pd.Timestamp.toordinal)
+    origin_date = df_daily_mean["cohort_d"].min()
+
+    # Variables para la regresión (sobre Retention Rate)
+    X = df_daily_mean[["Date_Num"]].values
+    y = df_daily_mean["Mean_Retention_Rate"].values
+
+    if len(X) < 10:
+        print(f"{title} tiene muy pocos datos para aplicar regresión.")
+        return None
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    date_range = np.linspace(X_train.min(), X_train.max(), 500).reshape(-1, 1)
+    additional_days = 90  # 90 días futuros
+    future_dates = np.linspace(X.max() + 1, X.max() + additional_days, 1000).reshape(-1, 1)
+
+    results = []
+    for degree in [3, 5, 7, 9, 10, 11]:
+        scaler = StandardScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+        date_range_scaled = scaler.transform(date_range)
+        future_dates_scaled = scaler.transform(future_dates)
+
+        poly = PolynomialFeatures(degree=degree)
+        X_train_poly = poly.fit_transform(X_train_scaled)
+        X_test_poly = poly.transform(X_test_scaled)
+        date_range_poly = poly.transform(date_range_scaled)
+        future_dates_poly = poly.transform(future_dates_scaled)
+
+        model = LinearRegression()
+        model.fit(X_train_poly, y_train)
+
+        y_train_pred = model.predict(X_train_poly)
+        y_test_pred = model.predict(X_test_poly)
+        y_pred_range = model.predict(date_range_poly)
+        y_future_pred = model.predict(future_dates_poly)
+
+        rmse_train = np.sqrt(mean_squared_error(y_train, y_train_pred))
+        rmse_test = np.sqrt(mean_squared_error(y_test, y_test_pred))
+        r2_train = r2_score(y_train, y_train_pred)
+        r2_test = r2_score(y_test, y_test_pred)
+        r2_diff = abs(r2_train - r2_test)
+
+        results.append((degree, rmse_train, r2_train, rmse_test, r2_test, r2_diff, y_pred_range, y_future_pred))
+        print(f"Grado {degree} - RMSE Train: {rmse_train:.4f}, R² Train: {r2_train:.4f}, RMSE Test: {rmse_test:.4f}, R² Test: {r2_test:.4f}, Dif. R²: {r2_diff:.4f}")
+
+    best_model = max(results, key=lambda x: x[4])
+    best_degree, _, _, _, best_r2_test, _, best_y_pred_range, best_y_future_pred = best_model
+    print(f"Mejor modelo: Grado {best_degree} - R² Test: {best_r2_test:.4f}")
+
+    min_date_num = df_daily_mean["Date_Num"].min()
+    model_dates = [origin_date + pd.Timedelta(days=int(num - min_date_num)) for num in date_range.flatten()]
+    
+
+    # Gráfica con doble eje y:
+    fig, ax1 = plt.subplots(figsize=(12, 6))
+    ax2 = ax1.twinx()
+
+    # Eje izquierdo: Retention Rate
+    ax1.scatter(df_daily_mean["cohort_d"], df_daily_mean["Mean_Retention_Rate"],
+                alpha=0.7, label="Datos Reales (Retención)", color="blue")
+    ax1.plot(model_dates, best_y_pred_range,
+             label=f"Modelo Retención (Grado {best_degree})", linewidth=2, color="green")
+
+    ax1.set_xlabel("Fecha de Cohorte", fontsize=14)
+    ax1.set_ylabel("Retention Rate Promedio", fontsize=14, color="blue")
+    ax1.tick_params(axis='y', labelcolor="blue")
+    ax1.set_yscale("log")
+    ax1.grid(alpha=0.3)
+
+    # Eje derecho: Tasa de Paro 
+    ax2.plot(df_daily_tasa["cohort_d"], df_daily_tasa["Mean_Tasa_Paro"],
+             color="magenta", label="Tasa de Paro", linewidth=2)
+    ax2.set_ylabel("Tasa de Paro", fontsize=14, color="magenta")
+    ax2.tick_params(axis='y', labelcolor="magenta")
+
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax2.legend(lines1 + lines2, labels1 + labels2, loc="upper right")
+
+    plt.title(f"Regresión Polinómica - {title} (Mejor Modelo: {best_degree})", fontsize=16)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+    return title, model_dates, best_y_pred_range
+
+# Aplicar regresión a todos los subdatasets en sub_retention y almacenar las líneas de modelo
+model_lines = {}
+for key, df_churn in sub_retention.items():
+    result = apply_regression(df_churn, f"Segmento - {key}")
+    if result is not None:
+        title, dates, model_line = result
+        model_lines[title] = (dates, model_line)
+
+# la media mensual de Tasa_Paro  
+plt.figure(figsize=(12, 6))
+for key, df in sub_retention.items():    
+    df['cohort_d'] = pd.to_datetime(df['cohort_d']) 
+    df_monthly = df.groupby(pd.Grouper(key="cohort_d", freq="M")).agg({'Tasa_Paro': 'mean'}).reset_index()
+    plt.plot(df_monthly["cohort_d"], df_monthly["Tasa_Paro"], marker="o", label=f"{key}")
+
+plt.title("Media Mensual de Tasa de Paro por Subdataset", fontsize=16)
+plt.xlabel("Mes", fontsize=14)
+plt.ylabel("Tasa de Paro (Media Mensual)", fontsize=14)
+plt.xticks(rotation=45)
+plt.grid(alpha=0.3)
+plt.legend(loc="upper right")
+plt.tight_layout()
+plt.show()
+
+
+plt.figure(figsize=(12, 6))
+for idx, (title, (dates, model_line)) in enumerate(model_lines.items()):
+    plt.plot(dates, model_line, label=title, linewidth=2)
+plt.title("Comparación de Líneas de Modelo entre Subdatasets", fontsize=16)
+plt.xlabel("Fecha de Cohorte", fontsize=14)
+plt.ylabel("Retention Rate Promedio", fontsize=14)
+plt.yscale("log")
+plt.xticks(rotation=45)
+plt.grid(alpha=0.3)
+plt.legend(loc="upper right")
+plt.tight_layout()
+plt.show()
+```
+
+Evaluando regresión para: Segmento - Repayment_Defaulter
+Grado 3 - RMSE Train: 0.2807, R² Train: 0.3060, RMSE Test: 0.2971, R² Test: 0.1921, Dif. R²: 0.1138
+Grado 5 - RMSE Train: 0.2760, R² Train: 0.3287, RMSE Test: 0.2952, R² Test: 0.2025, Dif. R²: 0.1261
+Grado 7 - RMSE Train: 0.2616, R² Train: 0.3970, RMSE Test: 0.2818, R² Test: 0.2733, Dif. R²: 0.1236
+Grado 9 - RMSE Train: 0.2520, R² Train: 0.4407, RMSE Test: 0.2634, R² Test: 0.3649, Dif. R²: 0.0759
+Grado 10 - RMSE Train: 0.2475, R² Train: 0.4601, RMSE Test: 0.2486, R² Test: 0.4343, Dif. R²: 0.0258
+Grado 11 - RMSE Train: 0.2475, R² Train: 0.4602, RMSE Test: 0.2491, R² Test: 0.4322, Dif. R²: 0.0280
+Mejor modelo: Grado 10 - R² Test: 0.4343
+
+![Image](https://github.com/user-attachments/assets/a34c0509-91eb-4b1e-819d-2d92100f4ba7)
+
+Evaluando regresión para: Segmento - Repayment_Late Payer
+Grado 3 - RMSE Train: 0.2604, R² Train: 0.4256, RMSE Test: 0.2793, R² Test: 0.0614, Dif. R²: 0.3642
+Grado 5 - RMSE Train: 0.2520, R² Train: 0.4620, RMSE Test: 0.2761, R² Test: 0.0827, Dif. R²: 0.3793
+Grado 7 - RMSE Train: 0.2438, R² Train: 0.4967, RMSE Test: 0.2679, R² Test: 0.1366, Dif. R²: 0.3601
+Grado 9 - RMSE Train: 0.2336, R² Train: 0.5379, RMSE Test: 0.2596, R² Test: 0.1891, Dif. R²: 0.3488
+Grado 10 - RMSE Train: 0.2324, R² Train: 0.5424, RMSE Test: 0.2574, R² Test: 0.2032, Dif. R²: 0.3392
+Grado 11 - RMSE Train: 0.2298, R² Train: 0.5526, RMSE Test: 0.2526, R² Test: 0.2327, Dif. R²: 0.3198
+Mejor modelo: Grado 11 - R² Test: 0.2327
+
+![Image](https://github.com/user-attachments/assets/d2aca54d-84c1-4943-9f48-4a0200a947e5)
+
+Evaluando regresión para: Segmento - Repayment_On-time Payer
+Grado 3 - RMSE Train: 0.2721, R² Train: 0.3299, RMSE Test: 0.2763, R² Test: 0.3384, Dif. R²: 0.0085
+Grado 5 - RMSE Train: 0.2567, R² Train: 0.4037, RMSE Test: 0.2687, R² Test: 0.3741, Dif. R²: 0.0295
+Grado 7 - RMSE Train: 0.2514, R² Train: 0.4277, RMSE Test: 0.2604, R² Test: 0.4121, Dif. R²: 0.0156
+Grado 9 - RMSE Train: 0.2415, R² Train: 0.4723, RMSE Test: 0.2470, R² Test: 0.4711, Dif. R²: 0.0012
+Grado 10 - RMSE Train: 0.2316, R² Train: 0.5144, RMSE Test: 0.2464, R² Test: 0.4737, Dif. R²: 0.0408
+Grado 11 - RMSE Train: 0.2293, R² Train: 0.5240, RMSE Test: 0.2495, R² Test: 0.4603, Dif. R²: 0.0637
+Mejor modelo: Grado 10 - R² Test: 0.4737
+
+![Image](https://github.com/user-attachments/assets/09026bd9-0abe-42f0-b457-56655fa66b34)
+
+![Image](https://github.com/user-attachments/assets/05314411-70cc-4d33-95ee-e1cf3f971143)
+
+![Image](https://github.com/user-attachments/assets/909eb7e1-0773-426b-89c5-36cfe46d0967)
+
+
+
+
+
+
+
 
 
 
