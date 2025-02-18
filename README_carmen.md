@@ -506,6 +506,553 @@ Aunque la ligera disminución de abril a mayo sugería un inicio de recuperació
 
 En resumen, mayo de 2020 fue un mes en el que, a pesar de un pequeño descenso en la tasa de desempleo, el mercado laboral en EE. UU. seguía en una situación crítica, reflejando el profundo impacto económico y social de la pandemia.
 
+## BUSCANDO DATOS DE LA TASA DE PARO EN EEEUU EN ESA EPOCA
+
+Se baraja ir a apis oficiales (se descarta porque hay que pedir permisos y solicitar token), se podria hacer webscrapping. Se opta por una tabla obtenida de un organismo oficial.
+
+https://data.bls.gov/timeseries/LNS14000000
+
+TABLA ORIGINAL
+```html
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Labor Force Statistics from the Current Popula...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Original Data Value</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Series Id:</td>
+      <td>LNS14000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Seasonally Adjusted</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Series title:</td>
+      <td>(Seas) Unemployment Rate</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Labor force status:</td>
+      <td>Unemployment rate</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Type of data:</td>
+      <td>Percent or rate</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Age:</td>
+      <td>16 years and over</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Years:</td>
+      <td>2015 to 2025</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Year</td>
+      <td>Jan</td>
+      <td>Feb</td>
+      <td>Mar</td>
+      <td>Apr</td>
+      <td>May</td>
+      <td>Jun</td>
+      <td>Jul</td>
+      <td>Aug</td>
+      <td>Sep</td>
+      <td>Oct</td>
+      <td>Nov</td>
+      <td>Dec</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2015</td>
+      <td>5.7</td>
+      <td>5.5</td>
+      <td>5.4</td>
+      <td>5.4</td>
+      <td>5.6</td>
+      <td>5.3</td>
+      <td>5.2</td>
+      <td>5.1</td>
+      <td>5</td>
+      <td>5</td>
+      <td>5.1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2016</td>
+      <td>4.8</td>
+      <td>4.9</td>
+      <td>5</td>
+      <td>5.1</td>
+      <td>4.8</td>
+      <td>4.9</td>
+      <td>4.8</td>
+      <td>4.9</td>
+      <td>5</td>
+      <td>4.9</td>
+      <td>4.7</td>
+      <td>4.7</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2017</td>
+      <td>4.7</td>
+      <td>4.6</td>
+      <td>4.4</td>
+      <td>4.4</td>
+      <td>4.4</td>
+      <td>4.3</td>
+      <td>4.3</td>
+      <td>4.4</td>
+      <td>4.3</td>
+      <td>4.2</td>
+      <td>4.2</td>
+      <td>4.1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2018</td>
+      <td>4</td>
+      <td>4.1</td>
+      <td>4</td>
+      <td>4</td>
+      <td>3.8</td>
+      <td>4</td>
+      <td>3.8</td>
+      <td>3.8</td>
+      <td>3.7</td>
+      <td>3.8</td>
+      <td>3.8</td>
+      <td>3.9</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2019</td>
+      <td>4</td>
+      <td>3.8</td>
+      <td>3.8</td>
+      <td>3.7</td>
+      <td>3.6</td>
+      <td>3.6</td>
+      <td>3.7</td>
+      <td>3.6</td>
+      <td>3.5</td>
+      <td>3.6</td>
+      <td>3.6</td>
+      <td>3.6</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2020</td>
+      <td>3.6</td>
+      <td>3.5</td>
+      <td>4.4</td>
+      <td>14.8</td>
+      <td>13.2</td>
+      <td>11</td>
+      <td>10.2</td>
+      <td>8.4</td>
+      <td>7.8</td>
+      <td>6.9</td>
+      <td>6.7</td>
+      <td>6.7</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2021</td>
+      <td>6.4</td>
+      <td>6.2</td>
+      <td>6.1</td>
+      <td>6.1</td>
+      <td>5.8</td>
+      <td>5.9</td>
+      <td>5.4</td>
+      <td>5.1</td>
+      <td>4.7</td>
+      <td>4.5</td>
+      <td>4.2</td>
+      <td>3.9</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2022</td>
+      <td>4</td>
+      <td>3.8</td>
+      <td>3.7</td>
+      <td>3.7</td>
+      <td>3.6</td>
+      <td>3.6</td>
+      <td>3.5</td>
+      <td>3.6</td>
+      <td>3.5</td>
+      <td>3.6</td>
+      <td>3.6</td>
+      <td>3.5</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2023</td>
+      <td>3.5</td>
+      <td>3.6</td>
+      <td>3.5</td>
+      <td>3.4</td>
+      <td>3.6</td>
+      <td>3.6</td>
+      <td>3.5</td>
+      <td>3.7</td>
+      <td>3.8</td>
+      <td>3.9</td>
+      <td>3.7</td>
+      <td>3.8</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2024</td>
+      <td>3.7</td>
+      <td>3.9</td>
+      <td>3.9</td>
+      <td>3.9</td>
+      <td>4</td>
+      <td>4.1</td>
+      <td>4.2</td>
+      <td>4.2</td>
+      <td>4.1</td>
+      <td>4.1</td>
+      <td>4.2</td>
+      <td>4.1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2025</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+```
+
+DE ESTO SELECCIONO SOLO LO QUE ME INTERESA
+```html
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Repayment_Status</th>
+      <th>Defaulter</th>
+      <th>Late Payer</th>
+      <th>On-time Payer</th>
+      <th>Tasa_Paro</th>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019-11</th>
+      <td>64</td>
+      <td>0</td>
+      <td>16</td>
+      <td>3.6</td>
+    </tr>
+    <tr>
+      <th>2019-12</th>
+      <td>14775</td>
+      <td>8911</td>
+      <td>1590</td>
+      <td>3.6</td>
+    </tr>
+    <tr>
+      <th>2020-01</th>
+      <td>3644</td>
+      <td>2210</td>
+      <td>400</td>
+      <td>3.6</td>
+    </tr>
+    <tr>
+      <th>2020-02</th>
+      <td>2394</td>
+      <td>1440</td>
+      <td>250</td>
+      <td>3.5</td>
+    </tr>
+    <tr>
+      <th>2020-03</th>
+      <td>4573</td>
+      <td>2725</td>
+      <td>506</td>
+      <td>4.4</td>
+    </tr>
+    <tr>
+      <th>2020-04</th>
+      <td>11429</td>
+      <td>6703</td>
+      <td>1232</td>
+      <td>14.8</td>
+    </tr>
+    <tr>
+      <th>2020-05</th>
+      <td>18125</td>
+      <td>10787</td>
+      <td>1954</td>
+      <td>13.2</td>
+    </tr>
+    <tr>
+      <th>2020-06</th>
+      <td>54395</td>
+      <td>32387</td>
+      <td>5910</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>2020-07</th>
+      <td>39790</td>
+      <td>23620</td>
+      <td>4476</td>
+      <td>10.2</td>
+    </tr>
+    <tr>
+      <th>2020-08</th>
+      <td>11804</td>
+      <td>7205</td>
+      <td>1296</td>
+      <td>8.4</td>
+    </tr>
+    <tr>
+      <th>2020-09</th>
+      <td>27057</td>
+      <td>16096</td>
+      <td>2882</td>
+      <td>7.8</td>
+    </tr>
+    <tr>
+      <th>2020-10</th>
+      <td>11768</td>
+      <td>6983</td>
+      <td>1239</td>
+      <td>6.9</td>
+    </tr>
+    <tr>
+      <th>2020-11</th>
+      <td>95</td>
+      <td>58</td>
+      <td>10</td>
+      <td>6.7</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+```
+
+
+
 
 
 
