@@ -239,6 +239,161 @@ for key, df_churn in sub_retention.items():
 ![Image](https://github.com/user-attachments/assets/f38167ff-3acf-4ffe-8d57-7da9b630ffe3)
 ![Image](https://github.com/user-attachments/assets/6ebdca7e-4af5-4662-9d76-82e7088dc26a)
 
+## APLICAR MODELO REGRESIÓN POLINÓMICA
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+import warnings
+
+warnings.filterwarnings('ignore')
+
+# Función para aplicar regresión polinómica a un subdataset
+def apply_regression(df_retention, title):
+    print(f"Evaluando regresión para: {title}")
+
+    # Convertir cohort_d a datetime
+    df_retention["cohort_d"] = pd.to_datetime(df_retention["cohort_d"])
+
+    # Agrupar por cohorte diaria y calcular la media de la Retention Rate
+    df_daily_mean = df_retention.groupby(pd.Grouper(key="cohort_d", freq="D")).agg(
+        Mean_Retention_Rate=("Retention_Rate", "mean")
+    ).reset_index()
+
+    # Eliminar valores NaN
+    df_daily_mean = df_daily_mean.dropna(subset=["Mean_Retention_Rate"])
+
+    # Convertir la fecha a un número ordinal
+    df_daily_mean["Date_Num"] = df_daily_mean["cohort_d"].map(pd.Timestamp.toordinal)
+
+    # Determinar el origen dinámico basado en el primer día de los datos
+    origin_date = df_daily_mean["cohort_d"].min()
+
+    # Separar en entrenamiento y prueba
+    X = df_daily_mean[['Date_Num']].values
+    y = df_daily_mean['Mean_Retention_Rate'].values
+
+    if len(X) < 10:  # Si hay muy pocos datos, evitar errores
+        print(f" {title} tiene muy pocos datos para aplicar regresión.")
+        return
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Generar un rango continuo de fechas para la predicción
+    date_range = np.linspace(df_daily_mean['Date_Num'].min(), df_daily_mean['Date_Num'].max(), 500).reshape(-1, 1)
+
+    # Extender fechas para predicciones futuras
+    additional_days = 90  # Extender predicción por 90 días
+    future_dates = np.linspace(df_daily_mean['Date_Num'].max() + 1, df_daily_mean['Date_Num'].max() + additional_days, 1000).reshape(-1, 1)
+
+    results = []
+
+    for degree in [3, 5, 7, 9, 10, 11]:
+     
+        scaler = StandardScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+        X_scaled = scaler.transform(X)
+        date_range_scaled = scaler.transform(date_range)
+        future_dates_scaled = scaler.transform(future_dates)
+
+        # Transformar las fechas en base al modelo polinómico
+        poly = PolynomialFeatures(degree=degree)
+        X_train_poly = poly.fit_transform(X_train_scaled)
+        X_test_poly = poly.transform(X_test_scaled)
+        X_poly = poly.transform(X_scaled)
+        date_range_poly = poly.transform(date_range_scaled)
+        future_dates_poly = poly.transform(future_dates_scaled)
+
+        # Entrenar el modelo de regresión polinómica
+        model = LinearRegression()
+        model.fit(X_train_poly, y_train)
+
+        # Predicción en entrenamiento y test
+        y_train_pred = model.predict(X_train_poly)
+        y_test_pred = model.predict(X_test_poly)
+        y_pred_range = model.predict(date_range_poly)
+        y_future_pred = model.predict(future_dates_poly)
+
+        # Evaluación
+        rmse_train = np.sqrt(mean_squared_error(y_train, y_train_pred))
+        r2_train = r2_score(y_train, y_train_pred)
+        rmse_test = np.sqrt(mean_squared_error(y_test, y_test_pred))
+        r2_test = r2_score(y_test, y_test_pred)
+        r2_diff = abs(r2_train - r2_test)
+
+        results.append((degree, rmse_train, r2_train, rmse_test, r2_test, r2_diff, y_pred_range, y_future_pred))     
+        print(f"Grado {degree} - RMSE Train: {rmse_train:.4f}, R² Train: {r2_train:.4f}, RMSE Test: {rmse_test:.4f}, R² Test: {r2_test:.4f}, Diferencia R²: {r2_diff:.4f}")
+
+    # Seleccionar el modelo con el mejor R² en test
+    best_model = max(results, key=lambda x: x[4])  # Selecciona el mayor R² Test
+    best_degree, _, _, _, best_r2_test, _, best_y_pred_range, best_y_future_pred = best_model
+
+    print(f" Mejor modelo: Grado {best_degree} - R² Test: {best_r2_test:.4f}")
+
+    # Crear gráfico con SOLO el mejor modelo
+    plt.figure(figsize=(12, 6))
+    plt.scatter(df_daily_mean["cohort_d"], df_daily_mean["Mean_Retention_Rate"], alpha=0.7, label="Datos Reales", color="blue")
+
+    # Graficar la mejor curva de ajuste
+    plt.plot([origin_date + pd.Timedelta(days=int(num - df_daily_mean['Date_Num'].min())) for num in date_range.flatten()], 
+             best_y_pred_range, label=f'Mejor Modelo (Grado {best_degree})', linewidth=2, color="green")
+
+    # Graficar la mejor extrapolación futura
+    plt.plot([origin_date + pd.Timedelta(days=int(num - df_daily_mean['Date_Num'].min())) for num in future_dates.flatten()], 
+             best_y_future_pred, linestyle='dashed', color="red", label=f'Predicción Futura (Grado {best_degree})')
+
+    # Configurar el gráfico
+    plt.title(f'Regresión Polinómica - {title} (Mejor Modelo: {best_degree})', fontsize=16)
+    plt.xlabel('Fecha de Cohorte', fontsize=14)
+    plt.ylabel('Retention Rate Promedio', fontsize=14)
+    plt.grid(alpha=0.3)
+    plt.xticks(rotation=45)
+    plt.yscale('log')
+    plt.legend(loc='upper right')
+    plt.tight_layout()
+    plt.show()
+
+# Aplicar regresión a todos los subdatasets en sub_retention
+for key, df_churn in sub_retention.items():
+    apply_regression(df_churn, f"Segmento - {key}")
+```
+#### OUTPUT
+Evaluando regresión para: Segmento - Repayment_Defaulter
+Grado 3 - RMSE Train: 0.2807, R² Train: 0.3060, RMSE Test: 0.2971, R² Test: 0.1921, Diferencia R²: 0.1138
+Grado 5 - RMSE Train: 0.2760, R² Train: 0.3287, RMSE Test: 0.2952, R² Test: 0.2025, Diferencia R²: 0.1261
+Grado 7 - RMSE Train: 0.2616, R² Train: 0.3970, RMSE Test: 0.2818, R² Test: 0.2733, Diferencia R²: 0.1236
+Grado 9 - RMSE Train: 0.2520, R² Train: 0.4407, RMSE Test: 0.2634, R² Test: 0.3649, Diferencia R²: 0.0759
+Grado 10 - RMSE Train: 0.2475, R² Train: 0.4601, RMSE Test: 0.2486, R² Test: 0.4343, Diferencia R²: 0.0258
+Grado 11 - RMSE Train: 0.2475, R² Train: 0.4602, RMSE Test: 0.2491, R² Test: 0.4322, Diferencia R²: 0.0280
+ Mejor modelo: Grado 10 - R² Test: 0.4343
+ ![Image](https://github.com/user-attachments/assets/eb7c421c-ab50-43a8-a0f7-47e4d439d975)
+
+ Evaluando regresión para: Segmento - Repayment_Late Payer
+Grado 3 - RMSE Train: 0.2604, R² Train: 0.4256, RMSE Test: 0.2793, R² Test: 0.0614, Diferencia R²: 0.3642
+Grado 5 - RMSE Train: 0.2520, R² Train: 0.4620, RMSE Test: 0.2761, R² Test: 0.0827, Diferencia R²: 0.3793
+Grado 7 - RMSE Train: 0.2438, R² Train: 0.4967, RMSE Test: 0.2679, R² Test: 0.1366, Diferencia R²: 0.3601
+Grado 9 - RMSE Train: 0.2336, R² Train: 0.5379, RMSE Test: 0.2596, R² Test: 0.1891, Diferencia R²: 0.3488
+Grado 10 - RMSE Train: 0.2324, R² Train: 0.5424, RMSE Test: 0.2574, R² Test: 0.2032, Diferencia R²: 0.3392
+Grado 11 - RMSE Train: 0.2298, R² Train: 0.5526, RMSE Test: 0.2526, R² Test: 0.2327, Diferencia R²: 0.3198
+ Mejor modelo: Grado 11 - R² Test: 0.2327
+![Image](https://github.com/user-attachments/assets/74dd2e22-f224-4474-9063-4ce63e9100ab)
+Evaluando regresión para: Segmento - Repayment_On-time Payer
+Grado 3 - RMSE Train: 0.2721, R² Train: 0.3299, RMSE Test: 0.2763, R² Test: 0.3384, Diferencia R²: 0.0085
+Grado 5 - RMSE Train: 0.2567, R² Train: 0.4037, RMSE Test: 0.2687, R² Test: 0.3741, Diferencia R²: 0.0295
+Grado 7 - RMSE Train: 0.2514, R² Train: 0.4277, RMSE Test: 0.2604, R² Test: 0.4121, Diferencia R²: 0.0156
+Grado 9 - RMSE Train: 0.2415, R² Train: 0.4723, RMSE Test: 0.2470, R² Test: 0.4711, Diferencia R²: 0.0012
+Grado 10 - RMSE Train: 0.2316, R² Train: 0.5144, RMSE Test: 0.2464, R² Test: 0.4737, Diferencia R²: 0.0408
+Grado 11 - RMSE Train: 0.2293, R² Train: 0.5240, RMSE Test: 0.2495, R² Test: 0.4603, Diferencia R²: 0.0637
+ Mejor modelo: Grado 10 - R² Test: 0.4737
+ ![Image](https://github.com/user-attachments/assets/74dd2e22-f224-4474-9063-4ce63e9100ab)
+
+
 
 
 
