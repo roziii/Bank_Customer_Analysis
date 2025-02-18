@@ -119,3 +119,126 @@ plt.show()
 ```
 ![Image](https://github.com/user-attachments/assets/bb6c48f0-5c30-4e7c-bc4c-774d6cfabbaf)
 
+### APLICACIÓN DE ESTOS SEGMENTOS A LA TASA DE RETENCIÓN
+
+```python
+import pandas as pd
+
+subdatasets = {
+    f"Repayment_{status}": df_group 
+    for status, df_group in df.groupby('Repayment_Status')
+}
+
+print(f"Se crearon {len(subdatasets)} subdatasets.")
+
+print(subdatasets.keys())
+```
+output
+Se crearon 3 subdatasets.
+dict_keys(['Repayment_Defaulter', 'Repayment_Late Payer', 'Repayment_On-time Payer'])
+
+```python
+# Diccionario para almacenar la retención de cada subdataset
+sub_retention = {}
+
+# Procesar cada subdataset
+for key, df in subdatasets.items():
+    print(f" Procesando subdataset: {key}")
+
+    # Asegurar que 'created_at' es datetime y eliminar zona horaria
+    df['created_at'] = pd.to_datetime(df['created_at'])
+    df['created_at'] = df['created_at'].dt.tz_localize(None)
+
+    # Verificar si 'deleted_account_id' existe antes de usarlo
+    if 'deleted_account_id' in df.columns:
+        df['user_id'] = df['user_id'].combine_first(df['deleted_account_id'])
+        df.drop(columns=['deleted_account_id'], inplace=True)
+
+    # Convertir a periodos diarios
+    df['Day'] = df['created_at'].dt.to_period('D')
+
+    # Calcular la cohorte diaria
+    df['cohort_d'] = df.groupby('user_id')['Day'].transform('min')
+
+    # Contar clientes iniciales por cohorte
+    cohort_daily_initial_sizes = df.groupby('cohort_d').agg(
+        Number_of_initial_customers=('user_id', 'nunique')
+    ).reset_index()
+
+    # Contar usuarios activos por cohorte y día
+    cohort_daily_sizes = df.groupby(['cohort_d', 'Day']).agg(
+        Number_of_customers=('user_id', 'nunique')
+    ).reset_index()
+
+    # Convertir 'Day' a datetime
+    cohort_daily_sizes['Day'] = cohort_daily_sizes['Day'].astype(str)
+    cohort_daily_sizes['Day'] = pd.to_datetime(cohort_daily_sizes['Day'])
+
+    # Calcular tasa de retención diaria
+    customers_daily_retention = cohort_daily_sizes.pivot(
+        index='cohort_d', columns='Day', values='Number_of_customers'
+    )
+
+    # Dividir por número inicial de clientes en cada cohorte
+    customers_daily_retention = customers_daily_retention.div(
+        cohort_daily_initial_sizes.set_index('cohort_d')['Number_of_initial_customers'], axis=0
+    )
+
+    # Convertir tabla a formato largo
+    df_churn = customers_daily_retention.reset_index().melt(
+        id_vars=['cohort_d'], var_name='Day', value_name='Retention_Rate'
+    )
+
+    # Asegurar que 'Day' es datetime
+    df_churn['Day'] = pd.to_datetime(df_churn['Day'])
+
+    # Calcular diferencia en días desde cohort_d hasta Day
+    df_churn['cohort_d'] = df_churn['cohort_d'].astype(str)  
+    df_churn['cohort_d'] = pd.to_datetime(df_churn['cohort_d'])
+    df_churn['Day_Num'] = (df_churn['Day'] - df_churn['cohort_d']).dt.days
+
+    # Almacenar el resultado en un diccionario
+    sub_retention[key] = df_churn
+
+    print(f"Procesamiento de {key} completado.\n")
+
+# Mostrar los subdatasets procesados
+print(" Subdatasets procesados:", sub_retention.keys())
+```
+
+```python
+
+warnings.filterwarnings('ignore')
+
+for key, df_churn in sub_retention.items():
+    print(f" Generando gráfico de dispersión para: {key}")
+
+
+    df_churn["cohort_d"] = pd.to_datetime(df_churn["cohort_d"])
+
+
+    df_daily_mean = df_churn.groupby(pd.Grouper(key="cohort_d", freq="D")).agg(
+        Mean_Retention_Rate=("Retention_Rate", "mean")
+    ).reset_index()
+
+
+    plt.figure(figsize=(15, 6))
+    plt.scatter(df_daily_mean["cohort_d"], df_daily_mean["Mean_Retention_Rate"], alpha=0.7, color="blue")
+
+    plt.title(f"Daily Retention Rate - {key}")
+    plt.xlabel("Cohort Date (YYYY-MM-DD)")
+    plt.ylabel("Average Retention Rate")
+    plt.xticks(rotation=90, fontsize=8)
+    plt.grid(alpha=0.3)
+    plt.show()
+
+    print(f" Gráfico generado para: {key}\n")
+```
+#### OUTPUT
+![Image](https://github.com/user-attachments/assets/7436a227-dfb8-43a6-927b-fe587a2c5482)
+![Image](https://github.com/user-attachments/assets/f38167ff-3acf-4ffe-8d57-7da9b630ffe3)
+![Image](https://github.com/user-attachments/assets/6ebdca7e-4af5-4662-9d76-82e7088dc26a)
+
+
+
+
