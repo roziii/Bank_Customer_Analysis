@@ -513,21 +513,8 @@ Se baraja ir a apis oficiales (se descarta porque hay que pedir permisos y solic
 https://data.bls.gov/timeseries/LNS14000000
 
 TABLA ORIGINAL
-```html
+
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -919,24 +906,10 @@ TABLA ORIGINAL
   </tbody>
 </table>
 </div>
-```
 
 DE ESTO SELECCIONO SOLO LO QUE ME INTERESA
-```html
+
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1049,7 +1022,7 @@ DE ESTO SELECCIONO SOLO LO QUE ME INTERESA
   </tbody>
 </table>
 </div>
-```
+
 
 
 
