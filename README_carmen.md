@@ -369,32 +369,33 @@ for key, df_churn in sub_retention.items():
 ```
 #### OUTPUT
 Evaluando regresión para: Segmento - Repayment_Defaulter
-Grado 3 - RMSE Train: 0.2807, R² Train: 0.3060, RMSE Test: 0.2971, R² Test: 0.1921, Diferencia R²: 0.1138
-Grado 5 - RMSE Train: 0.2760, R² Train: 0.3287, RMSE Test: 0.2952, R² Test: 0.2025, Diferencia R²: 0.1261
-Grado 7 - RMSE Train: 0.2616, R² Train: 0.3970, RMSE Test: 0.2818, R² Test: 0.2733, Diferencia R²: 0.1236
-Grado 9 - RMSE Train: 0.2520, R² Train: 0.4407, RMSE Test: 0.2634, R² Test: 0.3649, Diferencia R²: 0.0759
-Grado 10 - RMSE Train: 0.2475, R² Train: 0.4601, RMSE Test: 0.2486, R² Test: 0.4343, Diferencia R²: 0.0258
-Grado 11 - RMSE Train: 0.2475, R² Train: 0.4602, RMSE Test: 0.2491, R² Test: 0.4322, Diferencia R²: 0.0280
- Mejor modelo: Grado 10 - R² Test: 0.4343
+- Grado 3 - RMSE Train: 0.2807, R² Train: 0.3060, RMSE Test: 0.2971, R² Test: 0.1921, Diferencia R²: 0.1138
+- Grado 5 - RMSE Train: 0.2760, R² Train: 0.3287, RMSE Test: 0.2952, R² Test: 0.2025, Diferencia R²: 0.1261
+- Grado 7 - RMSE Train: 0.2616, R² Train: 0.3970, RMSE Test: 0.2818, R² Test: 0.2733, Diferencia R²: 0.1236
+- Grado 9 - RMSE Train: 0.2520, R² Train: 0.4407, RMSE Test: 0.2634, R² Test: 0.3649, Diferencia R²: 0.0759
+- Grado 10 - RMSE Train: 0.2475, R² Train: 0.4601, RMSE Test: 0.2486, R² Test: 0.4343, Diferencia R²: 0.0258
+- Grado 11 - RMSE Train: 0.2475, R² Train: 0.4602, RMSE Test: 0.2491, R² Test: 0.4322, Diferencia R²: 0.0280
+ - Mejor modelo: Grado 10 - R² Test: 0.4343
  ![Image](https://github.com/user-attachments/assets/eb7c421c-ab50-43a8-a0f7-47e4d439d975)
 
  Evaluando regresión para: Segmento - Repayment_Late Payer
-Grado 3 - RMSE Train: 0.2604, R² Train: 0.4256, RMSE Test: 0.2793, R² Test: 0.0614, Diferencia R²: 0.3642
-Grado 5 - RMSE Train: 0.2520, R² Train: 0.4620, RMSE Test: 0.2761, R² Test: 0.0827, Diferencia R²: 0.3793
-Grado 7 - RMSE Train: 0.2438, R² Train: 0.4967, RMSE Test: 0.2679, R² Test: 0.1366, Diferencia R²: 0.3601
-Grado 9 - RMSE Train: 0.2336, R² Train: 0.5379, RMSE Test: 0.2596, R² Test: 0.1891, Diferencia R²: 0.3488
-Grado 10 - RMSE Train: 0.2324, R² Train: 0.5424, RMSE Test: 0.2574, R² Test: 0.2032, Diferencia R²: 0.3392
-Grado 11 - RMSE Train: 0.2298, R² Train: 0.5526, RMSE Test: 0.2526, R² Test: 0.2327, Diferencia R²: 0.3198
+- Grado 3 - RMSE Train: 0.2604, R² Train: 0.4256, RMSE Test: 0.2793, R² Test: 0.0614, Diferencia R²: 0.3642
+- Grado 5 - RMSE Train: 0.2520, R² Train: 0.4620, RMSE Test: 0.2761, R² Test: 0.0827, Diferencia R²: 0.3793
+- Grado 7 - RMSE Train: 0.2438, R² Train: 0.4967, RMSE Test: 0.2679, R² Test: 0.1366, Diferencia R²: 0.3601
+- Grado 9 - RMSE Train: 0.2336, R² Train: 0.5379, RMSE Test: 0.2596, R² Test: 0.1891, Diferencia R²: 0.3488
+- Grado 10 - RMSE Train: 0.2324, R² Train: 0.5424, RMSE Test: 0.2574, R² Test: 0.2032, Diferencia R²: 0.3392
+- Grado 11 - RMSE Train: 0.2298, R² Train: 0.5526, RMSE Test: 0.2526, R² Test: 0.2327, Diferencia R²: 0.3198
  Mejor modelo: Grado 11 - R² Test: 0.2327
 ![Image](https://github.com/user-attachments/assets/74dd2e22-f224-4474-9063-4ce63e9100ab)
+
 Evaluando regresión para: Segmento - Repayment_On-time Payer
-Grado 3 - RMSE Train: 0.2721, R² Train: 0.3299, RMSE Test: 0.2763, R² Test: 0.3384, Diferencia R²: 0.0085
-Grado 5 - RMSE Train: 0.2567, R² Train: 0.4037, RMSE Test: 0.2687, R² Test: 0.3741, Diferencia R²: 0.0295
-Grado 7 - RMSE Train: 0.2514, R² Train: 0.4277, RMSE Test: 0.2604, R² Test: 0.4121, Diferencia R²: 0.0156
-Grado 9 - RMSE Train: 0.2415, R² Train: 0.4723, RMSE Test: 0.2470, R² Test: 0.4711, Diferencia R²: 0.0012
-Grado 10 - RMSE Train: 0.2316, R² Train: 0.5144, RMSE Test: 0.2464, R² Test: 0.4737, Diferencia R²: 0.0408
-Grado 11 - RMSE Train: 0.2293, R² Train: 0.5240, RMSE Test: 0.2495, R² Test: 0.4603, Diferencia R²: 0.0637
- Mejor modelo: Grado 10 - R² Test: 0.4737
+- Grado 3 - RMSE Train: 0.2721, R² Train: 0.3299, RMSE Test: 0.2763, R² Test: 0.3384, Diferencia R²: 0.0085
+- Grado 5 - RMSE Train: 0.2567, R² Train: 0.4037, RMSE Test: 0.2687, R² Test: 0.3741, Diferencia R²: 0.0295
+- Grado 7 - RMSE Train: 0.2514, R² Train: 0.4277, RMSE Test: 0.2604, R² Test: 0.4121, Diferencia R²: 0.0156
+- Grado 9 - RMSE Train: 0.2415, R² Train: 0.4723, RMSE Test: 0.2470, R² Test: 0.4711, Diferencia R²: 0.0012
+- Grado 10 - RMSE Train: 0.2316, R² Train: 0.5144, RMSE Test: 0.2464, R² Test: 0.4737, Diferencia R²: 0.0408
+- Grado 11 - RMSE Train: 0.2293, R² Train: 0.5240, RMSE Test: 0.2495, R² Test: 0.4603, Diferencia R²: 0.0637
+ - Mejor modelo: Grado 10 - R² Test: 0.4737
  ![Image](https://github.com/user-attachments/assets/74dd2e22-f224-4474-9063-4ce63e9100ab)
 
  ## NUEVA SEGMENTACIÓN, ADAPTACION DEL CODIGO Y NUEVOS RESULTADOS
@@ -402,68 +403,68 @@ Grado 11 - RMSE Train: 0.2293, R² Train: 0.5240, RMSE Test: 0.2495, R² Test: 0
 dict_keys(['Defaulter_activo', 'Defaulter_inactivo', 'Late Payer_activo', 'Late Payer_inactivo', 'On-time Payer_activo', 'On-time Payer_inactivo'])
 
 Evaluando regresión para: Segmento - Defaulter_activo
-Grado 3 - RMSE Train: 0.2762, R² Train: 0.2711, RMSE Test: 0.2761, R² Test: 0.3129, Diferencia R²: 0.0418
-Grado 5 - RMSE Train: 0.2713, R² Train: 0.2970, RMSE Test: 0.2705, R² Test: 0.3406, Diferencia R²: 0.0436
-Grado 7 - RMSE Train: 0.2523, R² Train: 0.3916, RMSE Test: 0.2460, R² Test: 0.4546, Diferencia R²: 0.0629
-Grado 9 - RMSE Train: 0.2436, R² Train: 0.4332, RMSE Test: 0.2488, R² Test: 0.4420, Diferencia R²: 0.0088
-Grado 10 - RMSE Train: 0.2379, R² Train: 0.4593, RMSE Test: 0.2494, R² Test: 0.4395, Diferencia R²: 0.0198
-Grado 11 - RMSE Train: 0.2376, R² Train: 0.4608, RMSE Test: 0.2484, R² Test: 0.4437, Diferencia R²: 0.0171
-Mejor modelo: Grado 7 - R² Test: 0.4546
+- Grado 3 - RMSE Train: 0.2762, R² Train: 0.2711, RMSE Test: 0.2761, R² Test: 0.3129, Diferencia R²: 0.0418
+- Grado 5 - RMSE Train: 0.2713, R² Train: 0.2970, RMSE Test: 0.2705, R² Test: 0.3406, Diferencia R²: 0.0436
+- Grado 7 - RMSE Train: 0.2523, R² Train: 0.3916, RMSE Test: 0.2460, R² Test: 0.4546, Diferencia R²: 0.0629
+- Grado 9 - RMSE Train: 0.2436, R² Train: 0.4332, RMSE Test: 0.2488, R² Test: 0.4420, Diferencia R²: 0.0088
+- Grado 10 - RMSE Train: 0.2379, R² Train: 0.4593, RMSE Test: 0.2494, R² Test: 0.4395, Diferencia R²: 0.0198
+- Grado 11 - RMSE Train: 0.2376, R² Train: 0.4608, RMSE Test: 0.2484, R² Test: 0.4437, Diferencia R²: 0.0171
+- Mejor modelo: Grado 7 - R² Test: 0.4546
 
 ![Image](https://github.com/user-attachments/assets/3798a4a2-be57-40c8-974d-c48f330639fe)
 
 Evaluando regresión para: Segmento - Defaulter_inactivo
-Grado 3 - RMSE Train: 0.2626, R² Train: 0.3061, RMSE Test: 0.3008, R² Test: 0.2297, Diferencia R²: 0.0764
-Grado 5 - RMSE Train: 0.2544, R² Train: 0.3487, RMSE Test: 0.2802, R² Test: 0.3319, Diferencia R²: 0.0168
-Grado 7 - RMSE Train: 0.2492, R² Train: 0.3750, RMSE Test: 0.2646, R² Test: 0.4042, Diferencia R²: 0.0292
-Grado 9 - RMSE Train: 0.2408, R² Train: 0.4166, RMSE Test: 0.2423, R² Test: 0.5001, Diferencia R²: 0.0835
-Grado 10 - RMSE Train: 0.2389, R² Train: 0.4258, RMSE Test: 0.2411, R² Test: 0.5051, Diferencia R²: 0.0793
-Grado 11 - RMSE Train: 0.2362, R² Train: 0.4387, RMSE Test: 0.2464, R² Test: 0.4830, Diferencia R²: 0.0444
-Mejor modelo: Grado 10 - R² Test: 0.5051
+- Grado 3 - RMSE Train: 0.2626, R² Train: 0.3061, RMSE Test: 0.3008, R² Test: 0.2297, Diferencia R²: 0.0764
+- Grado 5 - RMSE Train: 0.2544, R² Train: 0.3487, RMSE Test: 0.2802, R² Test: 0.3319, Diferencia R²: 0.0168
+- Grado 7 - RMSE Train: 0.2492, R² Train: 0.3750, RMSE Test: 0.2646, R² Test: 0.4042, Diferencia R²: 0.0292
+- Grado 9 - RMSE Train: 0.2408, R² Train: 0.4166, RMSE Test: 0.2423, R² Test: 0.5001, Diferencia R²: 0.0835
+- Grado 10 - RMSE Train: 0.2389, R² Train: 0.4258, RMSE Test: 0.2411, R² Test: 0.5051, Diferencia R²: 0.0793
+- Grado 11 - RMSE Train: 0.2362, R² Train: 0.4387, RMSE Test: 0.2464, R² Test: 0.4830, Diferencia R²: 0.0444
+- Mejor modelo: Grado 10 - R² Test: 0.5051
 
 ![image](https://github.com/user-attachments/assets/2c3a32fe-65f3-4a77-a031-79e32562d481)
 
 Evaluando regresión para: Segmento - Late Payer_activo
-Grado 3 - RMSE Train: 0.2347, R² Train: 0.3265, RMSE Test: 0.2557, R² Test: 0.2831, Diferencia R²: 0.0434
-Grado 5 - RMSE Train: 0.2306, R² Train: 0.3496, RMSE Test: 0.2546, R² Test: 0.2897, Diferencia R²: 0.0599
-Grado 7 - RMSE Train: 0.2173, R² Train: 0.4225, RMSE Test: 0.2595, R² Test: 0.2619, Diferencia R²: 0.1606
-Grado 9 - RMSE Train: 0.2131, R² Train: 0.4449, RMSE Test: 0.2534, R² Test: 0.2960, Diferencia R²: 0.1489
-Grado 10 - RMSE Train: 0.2088, R² Train: 0.4670, RMSE Test: 0.2697, R² Test: 0.2024, Diferencia R²: 0.2646
-Grado 11 - RMSE Train: 0.2088, R² Train: 0.4670, RMSE Test: 0.2706, R² Test: 0.1974, Diferencia R²: 0.2697
-Mejor modelo: Grado 9 - R² Test: 0.2960
+- Grado 3 - RMSE Train: 0.2347, R² Train: 0.3265, RMSE Test: 0.2557, R² Test: 0.2831, Diferencia R²: 0.0434
+- Grado 5 - RMSE Train: 0.2306, R² Train: 0.3496, RMSE Test: 0.2546, R² Test: 0.2897, Diferencia R²: 0.0599
+- Grado 7 - RMSE Train: 0.2173, R² Train: 0.4225, RMSE Test: 0.2595, R² Test: 0.2619, Diferencia R²: 0.1606
+- Grado 9 - RMSE Train: 0.2131, R² Train: 0.4449, RMSE Test: 0.2534, R² Test: 0.2960, Diferencia R²: 0.1489
+- Grado 10 - RMSE Train: 0.2088, R² Train: 0.4670, RMSE Test: 0.2697, R² Test: 0.2024, Diferencia R²: 0.2646
+- Grado 11 - RMSE Train: 0.2088, R² Train: 0.4670, RMSE Test: 0.2706, R² Test: 0.1974, Diferencia R²: 0.2697
+- Mejor modelo: Grado 9 - R² Test: 0.2960
 
 ![Image](https://github.com/user-attachments/assets/658196bb-c65a-4f63-909d-7e7f24426672)
 
 Evaluando regresión para: Segmento - Late Payer_inactivo
-Grado 3 - RMSE Train: 0.2626, R² Train: 0.3061, RMSE Test: 0.3008, R² Test: 0.2297, Diferencia R²: 0.0764
-Grado 5 - RMSE Train: 0.2544, R² Train: 0.3487, RMSE Test: 0.2802, R² Test: 0.3319, Diferencia R²: 0.0168
-Grado 7 - RMSE Train: 0.2492, R² Train: 0.3750, RMSE Test: 0.2646, R² Test: 0.4042, Diferencia R²: 0.0292
-Grado 9 - RMSE Train: 0.2408, R² Train: 0.4166, RMSE Test: 0.2423, R² Test: 0.5001, Diferencia R²: 0.0835
-Grado 10 - RMSE Train: 0.2389, R² Train: 0.4258, RMSE Test: 0.2411, R² Test: 0.5051, Diferencia R²: 0.0793
-Grado 11 - RMSE Train: 0.2362, R² Train: 0.4387, RMSE Test: 0.2464, R² Test: 0.4830, Diferencia R²: 0.0444
-Mejor modelo: Grado 10 - R² Test: 0.5051
+- Grado 3 - RMSE Train: 0.2626, R² Train: 0.3061, RMSE Test: 0.3008, R² Test: 0.2297, Diferencia R²: 0.0764
+- Grado 5 - RMSE Train: 0.2544, R² Train: 0.3487, RMSE Test: 0.2802, R² Test: 0.3319, Diferencia R²: 0.0168
+- Grado 7 - RMSE Train: 0.2492, R² Train: 0.3750, RMSE Test: 0.2646, R² Test: 0.4042, Diferencia R²: 0.0292
+- Grado 9 - RMSE Train: 0.2408, R² Train: 0.4166, RMSE Test: 0.2423, R² Test: 0.5001, Diferencia R²: 0.0835
+- Grado 10 - RMSE Train: 0.2389, R² Train: 0.4258, RMSE Test: 0.2411, R² Test: 0.5051, Diferencia R²: 0.0793
+- Grado 11 - RMSE Train: 0.2362, R² Train: 0.4387, RMSE Test: 0.2464, R² Test: 0.4830, Diferencia R²: 0.0444
+- Mejor modelo: Grado 10 - R² Test: 0.5051
 
 ![Image](https://github.com/user-attachments/assets/78d906e7-0b5d-45e7-b8b8-3fb9d3e86a54)
 
 Evaluando regresión para: Segmento - On-time Payer_activo
-Grado 3 - RMSE Train: 0.2214, R² Train: 0.1984, RMSE Test: 0.2380, R² Test: -0.0229, Diferencia R²: 0.2213
-Grado 5 - RMSE Train: 0.2181, R² Train: 0.2226, RMSE Test: 0.2695, R² Test: -0.3114, Diferencia R²: 0.5341
-Grado 7 - RMSE Train: 0.2142, R² Train: 0.2499, RMSE Test: 0.8897, R² Test: -13.2890, Diferencia R²: 13.5389
-Grado 9 - RMSE Train: 0.2135, R² Train: 0.2550, RMSE Test: 0.2433, R² Test: -0.0685, Diferencia R²: 0.3235
-Grado 10 - RMSE Train: 0.2124, R² Train: 0.2624, RMSE Test: 7.2672, R² Test: -952.3812, Diferencia R²: 952.6437
-Grado 11 - RMSE Train: 0.2081, R² Train: 0.2920, RMSE Test: 70.6852, R² Test: -90194.2490, Diferencia R²: 90194.5409
-Mejor modelo: Grado 3 - R² Test: -0.0229
+- Grado 3 - RMSE Train: 0.2214, R² Train: 0.1984, RMSE Test: 0.2380, R² Test: -0.0229, Diferencia R²: 0.2213
+- Grado 5 - RMSE Train: 0.2181, R² Train: 0.2226, RMSE Test: 0.2695, R² Test: -0.3114, Diferencia R²: 0.5341
+- Grado 7 - RMSE Train: 0.2142, R² Train: 0.2499, RMSE Test: 0.8897, R² Test: -13.2890, Diferencia R²: 13.5389
+- Grado 9 - RMSE Train: 0.2135, R² Train: 0.2550, RMSE Test: 0.2433, R² Test: -0.0685, Diferencia R²: 0.3235
+- Grado 10 - RMSE Train: 0.2124, R² Train: 0.2624, RMSE Test: 7.2672, R² Test: -952.3812, Diferencia R²: 952.6437
+- Grado 11 - RMSE Train: 0.2081, R² Train: 0.2920, RMSE Test: 70.6852, R² Test: -90194.2490, Diferencia R²: 90194.5409
+- Mejor modelo: Grado 3 - R² Test: -0.0229
 
 ![Image](https://github.com/user-attachments/assets/d1a688c2-a93a-4371-8ce2-6351178d3413)
 
 Evaluando regresión para: Segmento - On-time Payer_inactivo
-Grado 3 - RMSE Train: 0.2626, R² Train: 0.3061, RMSE Test: 0.3008, R² Test: 0.2297, Diferencia R²: 0.0764
-Grado 5 - RMSE Train: 0.2544, R² Train: 0.3487, RMSE Test: 0.2802, R² Test: 0.3319, Diferencia R²: 0.0168
-Grado 7 - RMSE Train: 0.2492, R² Train: 0.3750, RMSE Test: 0.2646, R² Test: 0.4042, Diferencia R²: 0.0292
-Grado 9 - RMSE Train: 0.2408, R² Train: 0.4166, RMSE Test: 0.2423, R² Test: 0.5001, Diferencia R²: 0.0835
-Grado 10 - RMSE Train: 0.2389, R² Train: 0.4258, RMSE Test: 0.2411, R² Test: 0.5051, Diferencia R²: 0.0793
-Grado 11 - RMSE Train: 0.2362, R² Train: 0.4387, RMSE Test: 0.2464, R² Test: 0.4830, Diferencia R²: 0.0444
-Mejor modelo: Grado 10 - R² Test: 0.5051
+- Grado 3 - RMSE Train: 0.2626, R² Train: 0.3061, RMSE Test: 0.3008, R² Test: 0.2297, Diferencia R²: 0.0764
+- Grado 5 - RMSE Train: 0.2544, R² Train: 0.3487, RMSE Test: 0.2802, R² Test: 0.3319, Diferencia R²: 0.0168
+- Grado 7 - RMSE Train: 0.2492, R² Train: 0.3750, RMSE Test: 0.2646, R² Test: 0.4042, Diferencia R²: 0.0292
+- Grado 9 - RMSE Train: 0.2408, R² Train: 0.4166, RMSE Test: 0.2423, R² Test: 0.5001, Diferencia R²: 0.0835
+- Grado 10 - RMSE Train: 0.2389, R² Train: 0.4258, RMSE Test: 0.2411, R² Test: 0.5051, Diferencia R²: 0.0793
+- Grado 11 - RMSE Train: 0.2362, R² Train: 0.4387, RMSE Test: 0.2464, R² Test: 0.4830, Diferencia R²: 0.0444
+- Mejor modelo: Grado 10 - R² Test: 0.5051
 
 ![Image](https://github.com/user-attachments/assets/50098236-9608-4c36-840c-08b9f5d08274)
 
@@ -497,7 +498,7 @@ En resumen, mayo de 2020 fue un mes en el que la reapertura económica se mezcl�
 
 **Si profundizamos más**
 
-En mayo de 2020, Estados Unidos continuó enfrentando una CRISIS LABORAL derivada de la pandemia del COVID-19. Aunque hubo una ligera mejora respecto a abril, la tasa de desempleo seguía siendo históricamente alta:
+En mayo de 2020, Estados Unidos continuó enfrentando una **CRISIS LABORAL derivada de la pandemia del COVID-19**. Aunque hubo una ligera mejora respecto a abril, la tasa de desempleo seguía siendo históricamente alta:
 
 **Niveles extraordinarios**
 La tasa de desempleo (medida U3, que es la oficial) se situó alrededor del 13.3% en mayo, tras alcanzar un pico cercano al 14.7% en abril. Esto representó a millones de estadounidenses sin empleo o en situación de desempleo temporal.
@@ -1178,35 +1179,35 @@ plt.show()
 ```
 
 Evaluando regresión para: Segmento - Repayment_Defaulter
-Grado 3 - RMSE Train: 0.2807, R² Train: 0.3060, RMSE Test: 0.2971, R² Test: 0.1921, Dif. R²: 0.1138
-Grado 5 - RMSE Train: 0.2760, R² Train: 0.3287, RMSE Test: 0.2952, R² Test: 0.2025, Dif. R²: 0.1261
-Grado 7 - RMSE Train: 0.2616, R² Train: 0.3970, RMSE Test: 0.2818, R² Test: 0.2733, Dif. R²: 0.1236
-Grado 9 - RMSE Train: 0.2520, R² Train: 0.4407, RMSE Test: 0.2634, R² Test: 0.3649, Dif. R²: 0.0759
-Grado 10 - RMSE Train: 0.2475, R² Train: 0.4601, RMSE Test: 0.2486, R² Test: 0.4343, Dif. R²: 0.0258
-Grado 11 - RMSE Train: 0.2475, R² Train: 0.4602, RMSE Test: 0.2491, R² Test: 0.4322, Dif. R²: 0.0280
-Mejor modelo: Grado 10 - R² Test: 0.4343
+- Grado 3 - RMSE Train: 0.2807, R² Train: 0.3060, RMSE Test: 0.2971, R² Test: 0.1921, Dif. R²: 0.1138
+- Grado 5 - RMSE Train: 0.2760, R² Train: 0.3287, RMSE Test: 0.2952, R² Test: 0.2025, Dif. R²: 0.1261
+- Grado 7 - RMSE Train: 0.2616, R² Train: 0.3970, RMSE Test: 0.2818, R² Test: 0.2733, Dif. R²: 0.1236
+- Grado 9 - RMSE Train: 0.2520, R² Train: 0.4407, RMSE Test: 0.2634, R² Test: 0.3649, Dif. R²: 0.0759
+- Grado 10 - RMSE Train: 0.2475, R² Train: 0.4601, RMSE Test: 0.2486, R² Test: 0.4343, Dif. R²: 0.0258
+- Grado 11 - RMSE Train: 0.2475, R² Train: 0.4602, RMSE Test: 0.2491, R² Test: 0.4322, Dif. R²: 0.0280
+- Mejor modelo: Grado 10 - R² Test: 0.4343
 
 ![Image](https://github.com/user-attachments/assets/a34c0509-91eb-4b1e-819d-2d92100f4ba7)
 
 Evaluando regresión para: Segmento - Repayment_Late Payer
-Grado 3 - RMSE Train: 0.2604, R² Train: 0.4256, RMSE Test: 0.2793, R² Test: 0.0614, Dif. R²: 0.3642
-Grado 5 - RMSE Train: 0.2520, R² Train: 0.4620, RMSE Test: 0.2761, R² Test: 0.0827, Dif. R²: 0.3793
-Grado 7 - RMSE Train: 0.2438, R² Train: 0.4967, RMSE Test: 0.2679, R² Test: 0.1366, Dif. R²: 0.3601
-Grado 9 - RMSE Train: 0.2336, R² Train: 0.5379, RMSE Test: 0.2596, R² Test: 0.1891, Dif. R²: 0.3488
-Grado 10 - RMSE Train: 0.2324, R² Train: 0.5424, RMSE Test: 0.2574, R² Test: 0.2032, Dif. R²: 0.3392
-Grado 11 - RMSE Train: 0.2298, R² Train: 0.5526, RMSE Test: 0.2526, R² Test: 0.2327, Dif. R²: 0.3198
-Mejor modelo: Grado 11 - R² Test: 0.2327
+- Grado 3 - RMSE Train: 0.2604, R² Train: 0.4256, RMSE Test: 0.2793, R² Test: 0.0614, Dif. R²: 0.3642
+- Grado 5 - RMSE Train: 0.2520, R² Train: 0.4620, RMSE Test: 0.2761, R² Test: 0.0827, Dif. R²: 0.3793
+- Grado 7 - RMSE Train: 0.2438, R² Train: 0.4967, RMSE Test: 0.2679, R² Test: 0.1366, Dif. R²: 0.3601
+- Grado 9 - RMSE Train: 0.2336, R² Train: 0.5379, RMSE Test: 0.2596, R² Test: 0.1891, Dif. R²: 0.3488
+- Grado 10 - RMSE Train: 0.2324, R² Train: 0.5424, RMSE Test: 0.2574, R² Test: 0.2032, Dif. R²: 0.3392
+- Grado 11 - RMSE Train: 0.2298, R² Train: 0.5526, RMSE Test: 0.2526, R² Test: 0.2327, Dif. R²: 0.3198
+- Mejor modelo: Grado 11 - R² Test: 0.2327
 
 ![Image](https://github.com/user-attachments/assets/d2aca54d-84c1-4943-9f48-4a0200a947e5)
 
 Evaluando regresión para: Segmento - Repayment_On-time Payer
-Grado 3 - RMSE Train: 0.2721, R² Train: 0.3299, RMSE Test: 0.2763, R² Test: 0.3384, Dif. R²: 0.0085
-Grado 5 - RMSE Train: 0.2567, R² Train: 0.4037, RMSE Test: 0.2687, R² Test: 0.3741, Dif. R²: 0.0295
-Grado 7 - RMSE Train: 0.2514, R² Train: 0.4277, RMSE Test: 0.2604, R² Test: 0.4121, Dif. R²: 0.0156
-Grado 9 - RMSE Train: 0.2415, R² Train: 0.4723, RMSE Test: 0.2470, R² Test: 0.4711, Dif. R²: 0.0012
-Grado 10 - RMSE Train: 0.2316, R² Train: 0.5144, RMSE Test: 0.2464, R² Test: 0.4737, Dif. R²: 0.0408
-Grado 11 - RMSE Train: 0.2293, R² Train: 0.5240, RMSE Test: 0.2495, R² Test: 0.4603, Dif. R²: 0.0637
-Mejor modelo: Grado 10 - R² Test: 0.4737
+- Grado 3 - RMSE Train: 0.2721, R² Train: 0.3299, RMSE Test: 0.2763, R² Test: 0.3384, Dif. R²: 0.0085
+- Grado 5 - RMSE Train: 0.2567, R² Train: 0.4037, RMSE Test: 0.2687, R² Test: 0.3741, Dif. R²: 0.0295
+- Grado 7 - RMSE Train: 0.2514, R² Train: 0.4277, RMSE Test: 0.2604, R² Test: 0.4121, Dif. R²: 0.0156
+- Grado 9 - RMSE Train: 0.2415, R² Train: 0.4723, RMSE Test: 0.2470, R² Test: 0.4711, Dif. R²: 0.0012
+- Grado 10 - RMSE Train: 0.2316, R² Train: 0.5144, RMSE Test: 0.2464, R² Test: 0.4737, Dif. R²: 0.0408
+- Grado 11 - RMSE Train: 0.2293, R² Train: 0.5240, RMSE Test: 0.2495, R² Test: 0.4603, Dif. R²: 0.0637
+- Mejor modelo: Grado 10 - R² Test: 0.4737
 
 ![Image](https://github.com/user-attachments/assets/09026bd9-0abe-42f0-b457-56655fa66b34)
 
