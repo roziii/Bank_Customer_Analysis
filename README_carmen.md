@@ -472,9 +472,9 @@ Evaluando regresión para: Segmento - On-time Payer_inactivo
 
 ## QUE PUEDE ESTAR PASANDO AQUI?
 
-Se observa claramente en todos los grupos una caida de la tasa de retención más o menos acusada en los mismos meses.
+Se observa claramente en todos los grupos una **caída de la tasa de retención** más o menos acusada en los mismos meses.
 
-A que se puede deber esto?
+**A que se puede deber esto?**
 
 En mayo de 2020 en Estados Unidos se vivieron momentos de gran transformación y tensión. Algunos de los hechos más relevantes fueron:
 
@@ -512,7 +512,7 @@ En resumen, mayo de 2020 fue un mes en el que, a pesar de un pequeño descenso e
 
 ## BUSCANDO DATOS DE LA TASA DE PARO EN EEEUU EN ESA EPOCA
 
-Se baraja ir a apis oficiales (se descarta porque hay que pedir permisos y solicitar token), se podria hacer webscrapping. Se opta por una tabla obtenida de un organismo oficial.
+Se baraja ir a APIs oficiales (se descarta porque hay que pedir permisos y solicitar token y eso tarda, además que hay que estudiarse la api para integrarla), se podria hacer webscrapping. Se opta, por rapidez, por una tabla obtenida de un organismo oficial.
 
 https://data.bls.gov/timeseries/LNS14000000
 
