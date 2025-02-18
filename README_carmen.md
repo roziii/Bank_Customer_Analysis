@@ -1556,11 +1556,12 @@ Cuando se consideran dos lags, dos de los tests (el SSR-based chi² test y el li
 **Conclusión:**  
 Aunque la correlación no implica causalidad por sí sola, el conjunto de evidencias—correlación significativa, cointegración ausente y resultados mixtos en la prueba de Granger—sugiere que existe una relación causal (en términos de capacidad predictiva) entre la Tasa de Paro y la Retention Rate.
 
+#### APUNTE RESPECTO LA POSIBILIDAD DE INTERPOLACIÓN Y EXTRAPOLACIÓN
 Igualmente esta relación causal es relativa porque hay que tener en cuenta:
 
-Este paro fue en el contexto de la pandemia, que es un fenómeno anómalo. También es anómala la tasa de paro tan elevada en EEUU, que acostumbra a ser siempre baja. Entonces hay que tener en cuenta muchos más factores. 
+Este paro fue en el contexto de la pandemia, que es un fenómeno anómalo. También es anómala la tasa de paro tan elevada en EEUU, que acostumbra a ser siempre baja. Entonces hay que tener en cuenta muchos más factores. A lo mejor tendriamos que predecir pandemias. 
 
-Como el fenómeno que ha provocado esto es anómalo **(Black Swan Event)** es difícil de predecir y las gráficas con extrapolación de Fourier o Regresión polinómica no son validas. Porque ese escenario no se repetira a menos que pase otra pandemia o catastrofe y entonces suba la tasa de paro. 
+Como el fenómeno que ha provocado esto es anómalo **(Black Swan Event)** es difícil de predecir y las gráficas con extrapolación de Fourier o Regresión polinómica no son validas. Porque ese escenario no se repetira a menos que pase otra pandemia o catastrofe y entonces suba la tasa de paro. La extrapolación en este caso puede ser inútil.
 
 
 
